@@ -1,0 +1,106 @@
+/* Custom styles for NumPyro book sites */
+
+/* Don't display repo stats */
+.md-source__fact {
+  display: none;
+}
+
+/* Wider content area (~12% increase) to accommodate larger figures */
+.md-grid {
+  max-width: 69rem;  /* default is ~61rem */
+}
+
+:root {
+  --md-admonition-icon--intuition: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg>');
+}
+
+/* Styling for mathematical notation inline with text */
+.md-typeset mjx-container {
+  margin: 0 0.1em;
+}
+
+/* Better code block styling */
+.md-typeset pre > code {
+  font-size: 0.82em;
+}
+
+/* Chapter number styling */
+.md-typeset h1 .chapter-num {
+  color: var(--md-primary-fg-color);
+  font-weight: 300;
+  margin-right: 0.3em;
+}
+
+/* Custom admonition: Intuition */
+.md-typeset .admonition.intuition,
+.md-typeset details.intuition {
+  border-color: #ab47bc;
+}
+.md-typeset .intuition > .admonition-title,
+.md-typeset .intuition > summary {
+  background-color: rgba(171, 71, 188, 0.1);
+  border-color: #ab47bc;
+}
+.md-typeset .intuition > .admonition-title::before,
+.md-typeset .intuition > summary::before {
+  background-color: #ab47bc;
+  -webkit-mask-image: var(--md-admonition-icon--intuition);
+  mask-image: var(--md-admonition-icon--intuition);
+}
+
+/* Custom admonition: R-to-NumPyro translation note */
+.md-typeset .admonition.numpyro-note,
+.md-typeset details.numpyro-note {
+  border-color: #26a69a;
+}
+.md-typeset .numpyro-note > .admonition-title,
+.md-typeset .numpyro-note > summary {
+  background-color: rgba(38, 166, 154, 0.1);
+  border-color: #26a69a;
+}
+
+/* Custom admonition: Math detail */
+.md-typeset .admonition.math-detail,
+.md-typeset details.math-detail {
+  border-color: #5c6bc0;
+}
+.md-typeset .math-detail > .admonition-title,
+.md-typeset .math-detail > summary {
+  background-color: rgba(92, 107, 192, 0.1);
+  border-color: #5c6bc0;
+}
+
+/* Output blocks */
+.md-typeset .output {
+  background-color: var(--md-code-bg-color);
+  padding: 0.8em 1em;
+  border-left: 3px solid var(--md-accent-fg-color);
+  margin: -0.5em 0 1em 0;
+  font-family: var(--md-code-font-family);
+  font-size: 0.82em;
+  overflow-x: auto;
+}
+
+/* Figure captions */
+.md-typeset .figure-caption {
+  text-align: center;
+  font-style: italic;
+  color: var(--md-default-fg-color--light);
+  margin-top: -0.5em;
+  margin-bottom: 1.5em;
+  font-size: 0.85em;
+}
+
+/* Better table styling */
+.md-typeset table:not([class]) {
+  font-size: 0.82em;
+}
+
+/* Highlight important equations */
+.md-typeset .important-equation {
+  background: var(--md-code-bg-color);
+  padding: 1em;
+  border-radius: 4px;
+  margin: 1em 0;
+  text-align: center;
+}
