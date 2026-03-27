@@ -2509,7 +2509,7 @@ plt.tight_layout()</div>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lam_history</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'orange'</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'blue'</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'True mean = </span><span class="si">{</span><span class="n">true_rate</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'EM Iteration'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'Estimated Mean $\hat{\lambda}$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Estimated Mean $\hat{\lambda}$'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'EM for Censored Exponential: Parameter Convergence'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -2560,7 +2560,7 @@ fig, ax = plt.subplots(figsize=(7, 4))
 ax.plot(lam_history, color=C['orange'], lw=2)
 ax.axhline(true_rate, color=C['blue'], ls='--', lw=1.5, label=f'True mean = {true_rate}')
 ax.set_xlabel('EM Iteration')
-ax.set_ylabel('Estimated Mean $\hat{\lambda}$')
+ax.set_ylabel(r'Estimated Mean $\hat{\lambda}$')
 ax.set_title('EM for Censored Exponential: Parameter Convergence')
 ax.legend()
 plt.tight_layout()</div>
@@ -2580,16 +2580,6 @@ EM estimate of mean:  2.4154
 True mean:            2.0000
 Naive mean (ignoring censoring): 1.4492
 Converged in 27 iterations
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>&lt;&gt;:47: SyntaxWarning: invalid escape sequence '\h'
-&lt;&gt;:47: SyntaxWarning: invalid escape sequence '\h'
-/var/folders/sx/j6nc9lsx5bb2r3zpb6hx7vdm0000gn/T/ipykernel_78366/140785703.py:47: SyntaxWarning: invalid escape sequence '\h'
-  ax.set_ylabel('Estimated Mean $\hat{\lambda}$')
 </pre>
 </div>
 </div>

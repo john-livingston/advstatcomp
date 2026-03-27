@@ -2638,7 +2638,7 @@ print(f"Final R-hat ({n_steps} iterations): {r_hats[-1]:.4f}  (want &lt; 1.1)")<
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'blue'</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">'R-hat = 1.1 threshold'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'gray'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">':'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'Chain Length $N$'</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">'$\hat</span><span class="si">{R}</span><span class="s1">$'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'$\hat</span><span class="si">{R}</span><span class="s1">$'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Gelman-Rubin Statistic vs Chain Length'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -2662,7 +2662,7 @@ ax.plot(ns_gr, r_hats, color=C['orange'], lw=2)
 ax.axhline(1.1, color=C['blue'], ls='--', lw=1.5, label='R-hat = 1.1 threshold')
 ax.axhline(1.0, color='gray', ls=':', lw=1)
 ax.set_xlabel('Chain Length $N$')
-ax.set_ylabel('$\hat{R}$')
+ax.set_ylabel(r'$\hat{R}$')
 ax.set_title('Gelman-Rubin Statistic vs Chain Length')
 ax.legend()
 plt.tight_layout()</div>
@@ -2674,16 +2674,6 @@ plt.tight_layout()</div>
 <div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>&lt;&gt;:20: SyntaxWarning: invalid escape sequence '\h'
-&lt;&gt;:20: SyntaxWarning: invalid escape sequence '\h'
-/var/folders/sx/j6nc9lsx5bb2r3zpb6hx7vdm0000gn/T/ipykernel_78421/4250248829.py:20: SyntaxWarning: invalid escape sequence '\h'
-  ax.set_ylabel('$\hat{R}$')
-</pre>
-</div>
-</div>
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedImage jp-OutputArea-output" tabindex="0">
