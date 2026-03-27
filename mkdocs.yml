@@ -1,0 +1,124 @@
+site_name: "Advanced Statistical Computing with Python"
+site_description: "Roger Peng's Advanced Statistical Computing, ported from R to Python"
+site_url: https://john-livingston.github.io/advstatcomp
+repo_url: https://github.com/john-livingston/advstatcomp
+repo_name: john-livingston/advstatcomp
+
+# Executed notebooks are written to docs/chapters/ by build.py
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    logo: material/chart-bell-curve-cumulative
+
+extra_css:
+  - stylesheets/custom.css
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.details
+  - admonition
+  - attr_list
+  - md_in_html
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-svg.js
+
+plugins:
+  - search
+  - section-index
+  - mkdocs-jupyter:
+      include_source: true
+      execute: false
+      allow_errors: false
+      theme: dark
+      remove_tag_config:
+        remove_cell_tags: ["remove-cell"]
+
+nav:
+  - Home: index.md
+  - "1. Introduction":
+    - chapters/ch01_introduction.ipynb
+    - "1.1 Example: Linear Models": chapters/ch01_example_linear_models.ipynb
+    - "1.2 Principle of Optimization Transfer": chapters/ch01_principle_of_optimization_transfer.ipynb
+    - "1.3 Textbooks vs. Computers": chapters/ch01_textbooks_vs_computers.ipynb
+  - "2. Solving Nonlinear Equations":
+    - chapters/ch02_solving_nonlinear_equations.ipynb
+    - "2.1 Bisection Algorithm": chapters/ch02_bisection_algorithm.ipynb
+    - "2.2 Rates of Convergence": chapters/ch02_rates_of_convergence.ipynb
+    - "2.3 Functional Iteration": chapters/ch02_functional_iteration.ipynb
+    - "2.4 Newton's Method": chapters/ch02_newtons_method.ipynb
+  - "3. General Optimization":
+    - chapters/ch03_general_optimization.ipynb
+    - "3.1 Steepest Descent": chapters/ch03_steepest_descent.ipynb
+    - "3.2 The Newton Direction": chapters/ch03_the_newton_direction.ipynb
+    - "3.3 Quasi-Newton": chapters/ch03_quasi_newton.ipynb
+    - "3.4 Conjugate Gradient": chapters/ch03_conjugate_gradient.ipynb
+    - "3.5 Coordinate Descent": chapters/ch03_coordinate_descent.ipynb
+  - "4. The EM Algorithm":
+    - chapters/ch04_the_em_algorithm.ipynb
+    - "4.1 EM Algorithm for Exponential Families": chapters/ch04_em_algorithm_for_exponential_families.ipynb
+    - "4.2 Canonical Examples": chapters/ch04_canonical_examples.ipynb
+    - "4.3 A Minorizing Function": chapters/ch04_a_minorizing_function.ipynb
+    - "4.4 Missing Information Principle": chapters/ch04_missing_information_principle.ipynb
+    - "4.5 Acceleration Methods": chapters/ch04_acceleration_methods.ipynb
+  - "5. Integration":
+    - chapters/ch05_integration.ipynb
+    - "5.1 Laplace Approximation": chapters/ch05_laplace_approximation.ipynb
+    - "5.2 Non-Uniform Random Numbers": chapters/ch05_non_uniform_random_numbers.ipynb
+  - "6. Independent Monte Carlo":
+    - chapters/ch06_independent_monte_carlo.ipynb
+    - "6.1 Random Number Generation": chapters/ch06_random_number_generation.ipynb
+    - "6.2 Rejection Sampling": chapters/ch06_rejection_sampling.ipynb
+    - "6.3 Importance Sampling": chapters/ch06_importance_sampling.ipynb
+  - "7. Markov Chain Monte Carlo":
+    - chapters/ch07_markov_chain_monte_carlo.ipynb
+    - "7.1 Background": chapters/ch07_background.ipynb
+    - "7.2 Metropolis-Hastings": chapters/ch07_metropolis_hastings.ipynb
+    - "7.3 Gibbs Sampler": chapters/ch07_gibbs_sampler.ipynb
+    - "7.4 Monitoring Convergence": chapters/ch07_monitoring_convergence.ipynb
+    - "7.5 Simulated Annealing": chapters/ch07_simulated_annealing.ipynb

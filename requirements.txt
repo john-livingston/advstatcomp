@@ -1,0 +1,14 @@
+# Core scientific stack
+numpy
+scipy
+matplotlib
+
+# Notebook execution
+jupyter
+nbconvert
+nbformat
+
+# Site generation
+mkdocs-material
+mkdocs-jupyter
+mkdocs-section-index
