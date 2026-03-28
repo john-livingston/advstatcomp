@@ -2190,7 +2190,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="gibbs-sampler">Gibbs Sampler<a class="anchor-link" href="#gibbs-sampler">¶</a></h2><p>The attraction of an algorithm like single component Metropolis-Hastings is that it converts a $p$-dimensional problem into $p$ separate 1-dimensional problems, each if which is likely simple to solve. This advantage is not unlike that seen with coordinate descent algorithms discussed previously. SCMH can however be very exploratory and may not be efficient in exploring the parameter space.</p>
+<h2 id="gibbs-sampler">Gibbs Sampler<a class="anchor-link" href="#gibbs-sampler">¶</a></h2><p>The attraction of an algorithm like single component Metropolis-Hastings is that it converts a $p$-dimensional problem into $p$ separate 1-dimensional problems, each of which is likely simple to solve. This advantage is not unlike that seen with coordinate descent algorithms discussed previously. SCMH can however be very exploratory and may not be efficient in exploring the parameter space.</p>
 <p>Gibbs sampling is a variant of SCMH that uses full conditional distributions for the proposal distribution for each component. Given a target density $\pi(x)=\pi(x_1,\dots,x_p)$, we cycle through sampling from $\pi(x_i\mid x_{-i})$ to update the $i$th component. Rather than go though an accept/reject step as with Metropolis-Hastings, we always accept, for reasons that will be detailed below.</p>
 <p>For example, with a three-component density $\pi(x, y, z)$, the full conditional distributions associated with this density are</p>
 <p>$\pi(x\mid y,z)$, $\pi(y\mid x,z)$, and $\pi(z\mid x,y)$.</p>
@@ -2223,7 +2223,7 @@ $$<p>If $\rho$ is close to 1, then this algorithm will likely take a while to co
 <h3 id="example-normal-likelihood">Example: Normal Likelihood<a class="anchor-link" href="#example-normal-likelihood">¶</a></h3><p>Suppose we observe $y_1,\dots,y_n\stackrel{\text{iid}}{\sim}\mathcal{N}(\mu, \tau^{-1})$, where $\tau^{-1}$ is the <em>precision</em> of the Normal distribution. We can use independent priors for the two parameters as</p>
 <p>$\mu \sim N(0, w^{-1})$ and $\tau \sim \Gamma(\alpha, \beta)$</p>
 <p>Because the priors are independent here, we will have to use Gibbs sampling to sample from the posterior distribution of $\mu$ and $\tau$.</p>
-<p>Recall that with Bayes’ Theorem, the joint posterior of $\mu$ and $\tau$ is</p>
+<p>Recall that with Bayes' Theorem, the joint posterior of $\mu$ and $\tau$ is</p>
 $$\begin{eqnarray*}
 \pi(\mu,\tau\mid \mathbf{y})
 &amp; \propto &amp;
@@ -2265,19 +2265,60 @@ f(\mathbf{y}\mid\mu,\tau)p(\tau)\\
 </ul>
 $$
 y_i\sim q_i(y\mid x^{(n)}_i,x^{(n)}_{-i}) = \pi(y\mid x_{-i}^{(n)})
-$$<p>. Here, the proposal distribution simply the full conditional distribution of $x_i$ given $x_{-i}$.</p>
+$$<p>Here, the proposal distribution is simply the full conditional distribution of $x_i$ given $x_{-i}$.</p>
 <h3 id="hybrid-gibbs-sampler">Hybrid Gibbs Sampler<a class="anchor-link" href="#hybrid-gibbs-sampler">¶</a></h3><p>Given the relationship between Gibbs sampling and SCMH, we can use this to extend the basic Gibbs algorithm. In some cases, we will not be able to sample directly from the full conditional distribution of a component. In those cases, we can substitute a standard Metropolis-Hastings step with a proposal/acceptance procedure.</p>
-<p>For components that require a Metropolis-Hastings step, we will need to come up with a proposal density for those components. In this case, the <em>target density</em> is simply the full conditional of component i given the other components. For component i then, the algorithm procedes as</p>
-<p>Then we can do the proposal and acceptance steps on the transformed parameter $z$, which has an infinite domain. However, we need to be careful that the acceptance ratio is calculated properly to account for the nonlinear transformation of $\lambda$. In this case we need to compute the determinant of the Jacobian of the transformation mapping $z$ back to $\lambda$.</p>
+<p>For components that require a Metropolis-Hastings step, we will need to come up with a proposal density for those components. In this case, the <em>target density</em> is simply the full conditional of component $i$ given the other components. For component $i$ then, the algorithm proceeds as</p>
+<ol>
+<li><p>Sample $y_i\sim q(y\mid x)$</p>
+</li>
+<li><p>Compute the acceptance probability</p>
+</li>
+</ol>
+$$
+\alpha(y_i\mid x)
+=
+\min\left(\frac{
+\pi(y_i\mid x_{-i})q(x_i\mid x)
+}{
+\pi(x_i\mid x_{-i})q(y_i\mid x)
+}, 1
+\right)
+$$<p>We then accept the proposal with probability $\alpha(y_i\mid x)$.</p>
 <p>Regardless of whether the proposal is accepted or not, we can move on to the next component of the parameter vector.</p>
 <h3 id="reparametrization">Reparametrization<a class="anchor-link" href="#reparametrization">¶</a></h3><p>In some Metropolis-Hastings or hybrid Gibbs sampling problems we may have parameters where it is easier to sample from a full conditional of a transformed version of the parameter. For example, we may need to sample from the full conditional $p(\lambda\mid\cdot)$ of a parameter that only takes values between $0$ and $1$. Doing something like a random walk proposal can be tricky given the restricted range.</p>
-<p>One solution is the transform the parameter to a space that has a infinte range. For a parameter $\lambda\in(0,1)$ we can use the logit transformation to map it to $(-\infty,\infty)$, i.e.</p>
+<p>One solution is to transform the parameter to a space that has an infinite range. For a parameter $\lambda\in(0,1)$ we can use the logit transformation to map it to $(-\infty,\infty)$, i.e.</p>
 $$
 z = \text{logit}(\lambda) = \log\frac{\lambda}{1-\lambda}
-$$<p>.</p>
-<p>Then we can do the proposal and acceptance steps on the transformed parameter $z$, which has an infinite domain. However, we need to be careful that the acceptance ratio is calculated properly to account for the nonlinear transformation of $\lambda$. In this case we need to compute the determinant of the Jacobian of the transformation mapping $z$ back to $\lambda$.</p>
-<p>The algorithm at iteration n in the transformed space would work as follows.</p>
-<p>where $r$ is a scalar (and hence $p(r)$ is a 1-dimensional density). From this density, sample a value for $r$ and set the proposal to be</p>
+$$<p>Then we can do the proposal and acceptance steps on the transformed parameter $z$, which has an infinite domain. However, we need to be careful that the acceptance ratio is calculated properly to account for the nonlinear transformation of $\lambda$. In this case we need to compute the determinant of the Jacobian of the transformation mapping $z$ back to $\lambda$.</p>
+<p>The algorithm at iteration $n$ in the transformed space would work as follows.</p>
+<ol>
+<li><p>Sample $z^\star \sim g(z\mid z_n)$, where $z_n=\text{logit}(\lambda_n)$ and $g$ is the proposal density.</p>
+</li>
+<li><p>Compute</p>
+</li>
+</ol>
+$$
+\alpha(z^\star\mid z_n)
+=
+\min\left(\frac{
+p(\text{logit}^{-1}(z^\star)\mid\cdot)
+}{
+p(\text{logit}^{-1}(z_n)\mid\cdot)
+}\frac{
+g(z_n\mid z^\star)
+}{
+g(z^\star\mid z_n)
+}\frac{
+|J(z^\star)|
+}{
+|J(z_n)|
+},
+1
+\right)
+$$<p>where $|J(z)|$ is the determinant of the Jacobian of the transformation that maps from $z\mapsto\lambda$, i.e. the function</p>
+$$
+\text{logit}^{-1}(z) = \frac{\exp(z)}{1+\exp(z)}
+$$<p>Because the transformation here is for a single parameter, the determinant is straightforward. However, for a multi-dimensional mapping, we would need an extra step to compute the determinant.</p>
 <p>In Python, we can compute this Jacobian (and that for any other transformation) analytically using NumPy, or numerically via finite differences using <code>scipy.optimize.approx_fprime()</code>.</p>
 </div>
 </div>
