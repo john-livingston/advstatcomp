@@ -2170,10 +2170,8 @@ and that we can calculate c. The easiest way to satisfy this assumption is to ma
 <ol>
 <li>Simulate $U \sim \text{Unif}(0,1)$.</li>
 <li>Simulate a candidate $X \sim g$ from the candidate density</li>
-<li>If</li>
+<li>If $U\leq\frac{f(X)}{cg(X)}$ then accept the candidate X. Otherwise, reject X and go back to the beginning.</li>
 </ol>
-<p>$U\leq\frac{f(X)}{cg(X)}$
-then “accept” the candidate X. Otherwise, “reject” X and go back to the beginning.</p>
 <p>The algorithm can be repeated until the desired number of samples from the target density f has been accepted.</p>
 <p>As a simple example, suppose we wanted to generate samples from a N(0,1) density. We could use the t2 distribution as our candidate density as it has heavier tails than the Normal. Plotting those two densities, along with a sample from the t2 density gives us the picture below.</p>
 </div>
