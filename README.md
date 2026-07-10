@@ -48,4 +48,4 @@ mkdocs.yml          # Site configuration
 build.py            # Build script
 ```
 
-The build script executes notebooks from `notebooks/advstatcomp/` and writes the results to `docs/chapters/`, which is gitignored. Only source files are tracked in version control.
+The build script executes notebooks from `notebooks/` and writes the results to `docs/chapters/`, which is gitignored. Only source files are tracked in version control.

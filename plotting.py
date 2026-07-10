@@ -1,16 +1,14 @@
 """
-Shared plotting configuration for NumPyro book sites.
+Shared plotting configuration for the advstatcomp notebooks.
 
-Supports two modes:
+Used directly inside notebooks, which build.py executes via its
+--site/--serve/--deploy/--chapter flags (see `python build.py --help`):
 
-  Script pipeline (build.py --py):
-      setup_plotting("ch01")          # sets chapter prefix for save_fig
-      save_fig("posterior_update")    # saves to PLOT_OUTPUT_DIR/ch01_posterior_update.png
-      get_data_path("data.csv")      # returns DATA_DIR/data.csv
+    setup_plotting()                # dark-mode matplotlib defaults
+    plt.show()                      # inline output in the notebook
 
-  Notebook pipeline (build.py --nb):
-      setup_plotting()               # no prefix needed; plots display inline
-      plt.show()                     # inline output in notebook
+save_fig() and get_data_path() below are leftover helpers from an older
+script-based pipeline and are currently unused by the notebooks.
 """
 import os
 from pathlib import Path

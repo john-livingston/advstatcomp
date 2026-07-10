@@ -2,7 +2,7 @@
 """
 Build script for advstatcomp-python.
 
-Executes the source notebooks in notebooks/advstatcomp/, copies them to
+Executes the source notebooks in notebooks/, copies them to
 docs/chapters/, then builds (or serves/deploys) the mkdocs site.
 
 Usage:
@@ -25,8 +25,6 @@ from pathlib import Path
 ROOT        = Path(__file__).parent
 NB_SRC      = ROOT / "notebooks"                   # source notebooks
 CHAPTERS    = ROOT / "docs" / "chapters"            # executed notebooks land here
-DATA_SRC    = ROOT / "data"
-DATA_DEST   = ROOT / "docs" / "data"
 TIMEOUT     = 600   # seconds per notebook
 
 
@@ -89,17 +87,6 @@ def execute_all(chapter_filter: str | None = None, workers: int = 4) -> tuple[in
 
 
 # ---------------------------------------------------------------------------
-# Data files
-# ---------------------------------------------------------------------------
-
-def sync_data():
-    """Copy data files to docs/data/ so mkdocs-jupyter can serve them."""
-    DATA_DEST.mkdir(parents=True, exist_ok=True)
-    for f in DATA_SRC.glob("*"):
-        shutil.copy2(f, DATA_DEST / f.name)
-
-
-# ---------------------------------------------------------------------------
 # mkdocs commands
 # ---------------------------------------------------------------------------
 
@@ -142,13 +129,13 @@ def main():
     args = parser.parse_args()
 
     CHAPTERS.mkdir(parents=True, exist_ok=True)
-    sync_data()
 
     if not args.site:
         ok, failed = execute_all(chapter_filter=args.chapter, workers=args.jobs)
         print(f"\nExecution complete: {ok} succeeded, {failed} failed.")
         if failed:
-            print("Site will still build but failed notebooks may show errors.")
+            print(f"\n{failed} notebook(s) failed; aborting before mkdocs build.")
+            sys.exit(1)
 
     if args.deploy:
         mkdocs_deploy()
