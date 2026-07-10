@@ -1175,34 +1175,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1306,6 +1278,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1313,7 +1313,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1341,7 +1341,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2070,7 +2070,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="em-algorithm-for-exponential-families">EM Algorithm for Exponential Families<a class="anchor-link" href="#em-algorithm-for-exponential-families">¶</a></h2><p>Data that are generated from a <em>regular exponential family</em> distribution have a density that takes the form</p>
 $$g(x\mid\theta)=h(x) \exp(\theta^\prime t(x))/a(\theta).$$<p>where $\theta$ is the canonical parameter and $t(x)$ is the vector of sufficient statistics. When thinking about the EM algorithm, the ideal scenario is that the <em>complete data density</em> can be written as an exponential family. In that case, for the E-step, if $y$ represents the observed component of the complete data, we can write</p>
-$$\begin{eqnarray*}Q(\theta\mid\theta_0)&amp; = &amp;\mathbb{E}[\log g(x\mid\theta)\mid y, \theta_0]\\&amp; = &amp;\log h(x)-\theta^\prime \mathbb{E}[t(x)\mid y, \theta_0] - \log a(\theta)\end{eqnarray*}$$<p>(Note: We can ignore the $h(x)$ term because it does not involve the $\theta$ parameter.) In order to maximize this function with respect to $\theta$, we can take the derivative and set it equal to zero,</p>
+$$\begin{eqnarray*}Q(\theta\mid\theta_0)&amp; = &amp;\mathbb{E}[\log g(x\mid\theta)\mid y, \theta_0]\\&amp; = &amp;\log h(x)+\theta^\prime \mathbb{E}[t(x)\mid y, \theta_0] - \log a(\theta)\end{eqnarray*}$$<p>(Note: We can ignore the $h(x)$ term because it does not involve the $\theta$ parameter.) In order to maximize this function with respect to $\theta$, we can take the derivative and set it equal to zero,</p>
 $$Q^\prime(\theta\mid\theta_0)=\mathbb{E}[t(x)\mid y,\theta_0] - \mathbb{E}_\theta[t(x)] = 0.$$<p>Hence, for exponential family distributions, executing the M-step is equivalent to setting</p>
 $$\mathbb{E}[t(x)\mid y,\theta_0] = \mathbb{E}_\theta[t(x)]$$<p>where $\mathbb{E}_\theta[t(x)]$ is the unconditional expectation of the complete data and $\mathbb{E}[t(x)\mid y,\theta_0]$ is the conditional expectation of the missing data, given the observed data.</p>
 </div>
@@ -2186,7 +2186,7 @@ $$\mathbb{E}[t(x)\mid y,\theta_0] = \mathbb{E}_\theta[t(x)]$$<p>where $\mathbb{E
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

@@ -1224,34 +1224,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1355,6 +1327,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1362,7 +1362,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1390,7 +1390,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2162,7 +2162,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="32-the-newton-direction">3.2 The Newton Direction<a class="anchor-link" href="#32-the-newton-direction">¶</a></h1><p>Newton’s method makes a quadratic approximation to the target function $f$ at each step of the algorithm. This follows the “optimization transfer” principle mentioned earlier, whereby we take a complex function $f$, replace it with a simpler function $g$ that is easier to optimize, and then optimize the simpler function repeatedly until convergence to the solution.</p>
+<h1 id="32-the-newton-direction">3.2 The Newton Direction<a class="anchor-link" href="#32-the-newton-direction">¶</a></h1><p>Given a current best estimate $x_n$, we can approximate $f$ with a quadratic polynomial. For some small $p$,</p>
+$$
+f(x_n + p)
+\approx
+f(x_n) + p^\prime f^\prime(x_n) + \frac{1}{2}p^\prime f^{\prime\prime}(x_n)p.
+$$<p>If we minimize the right hand side with respect to $p$, we obtain
+$$
+p_n = f^{\prime\prime}(x_n)^{-1}[-f^\prime(x_n)]
+$$
+which we can think of as the steepest descent direction “twisted” by the inverse of the Hessian matrix $f^{\prime\prime}(x_n)^{-1}$. Newton’s method has a “natural” step length of $1$, so that the updating procedure is</p>
+$$
+x_{n+1} = x_n - f^{\prime\prime}(x_n)^{-1}f^\prime(x_n).
+$$<p>Newton’s method makes a quadratic approximation to the target function $f$ at each step of the algorithm. This follows the “optimization transfer” principle mentioned earlier, whereby we take a complex function $f$, replace it with a simpler function $g$ that is easier to optimize, and then optimize the simpler function repeatedly until convergence to the solution.</p>
 <p>We can visualize how Newton’s method makes its quadratic approximation to the target function easily in one dimension.</p>
 </div>
 </div>
@@ -2363,30 +2375,27 @@ plt.tight_layout()
 <h3 id="generalized-linear-models">Generalized Linear Models<a class="anchor-link" href="#generalized-linear-models">¶</a></h3><p>The generalized linear model is an extension of the standard linear model to allow for non-Normal response distributions. The distributions used typically come from an exponential family whose density functions share some common characteristics. With a GLM, we typical present it as $y_i\sim p(y_i\mid\mu_i)$, where $p$ is an exponential family distribution, $\mathbb{E}[y_i]=\mu_i$,</p>
 $$
 g(\mu_i) = x_i^\prime\beta,
-
 $$<p>where $g$ is a nonlinear link function, and $\text{Var}(y_i) = V(\mu)$ where $V$ is a known variance function.</p>
 <p>Unlike the standard linear model, the maximum likelihood estimate of the parameter vector $\beta$ cannot be obtained in closed form, so an iterative algorithm must be used to obtain the estimate. The traditional algorithm used is the Fisher scoring algorithm. This algorithm uses a linear approximation to the nonlinear link function $g$, which can be written as</p>
 $$
 g(y_i)\approx g(\mu_i) + (y_i-\mu_i)g^\prime(\mu_i).
-
 $$<p>The typical notation of GLMs refers to $z_i=g(\mu_i) + (y_i-\mu_i)g^\prime(\mu_i)$ as the <em>working response</em>. The Fisher scoring algorithm then works as follows.</p>
 <ol>
-<li>Start with $\hat{\mu}_i$, some initial value.</li>
-<li>Compute</li>
-</ol>
-$$
-z_i = g(\hat{\mu}_i) + (y_i-\hat{\mu}_i)g^\prime(\hat{\mu}_i)
-$$<p>.
-3. Given the $n\times 1$ vector of working responses $z$ and the $n\times p$ predictor matrix $X$ we compute a weighted regression of $z$ on $X$ to get</p>
-$$
-\beta_n = (X^\prime WX)^{-1}X^\prime Wz
-
-$$<p>where $W$ is a diagonal matrix with diagonal elements</p>
-$$
-w_{ii} = \left[g^\prime(\mu_i)^2V(\mu_i)\right]^{-1}.
-
-$$<ol start="4">
-<li>Given $\beta_n$, we can recompute $\hat{\mu}_i=g^{-1}(x_i^\prime\beta_n)$ and go to 2.</li>
+<li><p>Start with $\hat{\mu}_i$, some initial value.</p>
+</li>
+<li><p>Compute $z_i = g(\hat{\mu}_i) + (y_i-\hat{\mu}_i)g^\prime(\hat{\mu}_i)$.</p>
+</li>
+<li><p>Given the $n\times 1$ vector of working responses $z$ and the $n\times p$ predictor matrix $X$ we compute a weighted regression of $z$ on $X$ to get</p>
+<p>$$
+ \beta_n = (X^\prime WX)^{-1}X^\prime Wz
+ $$</p>
+<p>where $W$ is a diagonal matrix with diagonal elements</p>
+<p>$$
+ w_{ii} = \left[g^\prime(\mu_i)^2V(\mu_i)\right]^{-1}.
+ $$</p>
+</li>
+<li><p>Given $\beta_n$, we can recompute $\hat{\mu}_i=g^{-1}(x_i^\prime\beta_n)$ and go to 2.</p>
+</li>
 </ol>
 <p>Note that in Step 3 above, the weights are simply the inverses of the variance of $z_i$, i.e.</p>
 $$
@@ -2398,7 +2407,6 @@ $$
 \text{Var}((y_i-\mu_i)g^\prime(\mu_i))\\
 &amp; = &amp; V(\mu_i)g^\prime(\mu_i)^2
 \end{eqnarray*}
-
 $$<p>Naturally, when doing a weighted regression, we would weight by the inverse of the variances.</p>
 <h4 id="example-poisson-regression">Example: Poisson Regression<a class="anchor-link" href="#example-poisson-regression">¶</a></h4><p>For a Poisson regression, we have $y_i\sim\text{Poisson}(\mu_i)$ where $g(\mu) = \log\mu_i = x_i^\prime\beta$ because the log is the canonical link function for the Poisson distribution. We also have $g^\prime(\mu_i) = \frac{1}{\mu_i}$ and $V(\mu_i) = \mu_i$. Therefore, the Fisher scoring algorithm is</p>
 <ol>
@@ -2412,25 +2420,20 @@ $$<ol start="3">
 </ol>
 $$
 w_{ii} = \left[\frac{1}{\hat{\mu}_i^2}\hat{\mu}_i\right]^{-1} = \hat{\mu}_i.
-
 $$<p>Using the Poisson regression example, we can draw a connection between the usual Fisher scoring algorithm for fitting GLMs and Newton’s method. Recall that if $\ell(\beta)$ is the log-likelihood as a function of the regression paramters $\beta$, then the Newton updating scheme is</p>
 $$
 \beta_{n+1} = \beta_n + \ell^{\prime\prime}(\beta_n)^{-1}[-\ell^\prime(\beta_n)].
-
 $$<p>The log-likelihoood for a Poisson regression model can be written in vector/matrix form as</p>
 $$
 \ell(\beta) = y^\prime X\beta - \exp(X\beta)^\prime\mathbf{1}
-
 $$<p>where the exponential is taken component-wise on the vector $X\beta$. The gradient function is</p>
 $$
 \ell^\prime(\beta) = X^\prime y - X^\prime \exp(X\beta)
 =
 X^\prime(y-\mu)
-
 $$<p>and the Hessian is</p>
 $$
 \ell^{\prime\prime}(\beta) = -X^\prime W X
-
 $$<p>where $W$ is a diagonal matrix with the values $w_{ii} = \exp(x_i^\prime\beta)$ on the diagonal. The Newton iteration is then</p>
 $$
 \begin{eqnarray*}
@@ -2444,7 +2447,6 @@ $$
 &amp; = &amp;
 (X^\prime WX)^{-1}X^\prime Wz
 \end{eqnarray*}
-
 $$<p>Therefore the iteration is exactly the same as the Fisher scoring algorithm in this case. In general, Newton’s method and Fisher scoring will coincide with any generalized linear model using an exponential family with a canonical link function.</p>
 </div>
 </div>
@@ -2456,7 +2458,7 @@ $$<p>Therefore the iteration is exactly the same as the Fisher scoring algorithm
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="newtons-method-in-python">Newton's Method in Python<a class="anchor-link" href="#newtons-method-in-python">¶</a></h3><p><code>scipy.optimize.minimize</code> implements Newton-type methods for minimizing a function. As an example, we use it to fit a simple logistic regression model for binary data. This model specifies that $y_i\sim\text{Bernoulli}(p_i)$ where</p>
+<h3 id="newtons-method-in-python">Newton's Method in Python<a class="anchor-link" href="#newtons-method-in-python">¶</a></h3><p><code>scipy.optimize.minimize</code> implements a variety of optimization methods for minimizing a function. As an example, we use its BFGS method — a quasi-Newton method — to fit a simple logistic regression model for binary data. This model specifies that $y_i\sim\text{Bernoulli}(p_i)$ where</p>
 $$
 \log\frac{p_i}{1-p_i} = \beta_0 + x_i \beta_1
 $$<p>and the goal is to estimate $\beta$ via maximum likelihood. The negative log-likelihood is</p>
@@ -2722,7 +2724,7 @@ plt.tight_layout()</div>
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

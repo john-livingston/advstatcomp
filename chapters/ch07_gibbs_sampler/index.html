@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1252,6 +1224,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1259,7 +1259,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1287,7 +1287,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1554,6 +1554,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#example-bernoulli-random-effects-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Bernoulli Random Effects Model
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1716,6 +1727,17 @@
     <span class="md-ellipsis">
       
         Reparametrization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-bernoulli-random-effects-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: Bernoulli Random Effects Model
       
     </span>
   </a>
@@ -2210,16 +2232,18 @@ p(z_n) &amp; \rightarrow &amp; \pi(z)
 <p>$\Sigma = \begin{pmatrix} \sigma_1^2 &amp; \rho \\ \rho &amp; \sigma_2^2 \end{pmatrix}$</p>
 <p>Although there are exact ways to do this, we can make use of Gibbs sampling too simulate a Markov chain that will converge to a bivariate Normal. At the $n$th iteration with state vector $(x_n, y_n)$, we can update our state with the following steps.</p>
 <ol>
-<li>Sample</li>
+<li><p>Sample</p>
+<p>$$
+ x_{n+1}\sim\mathcal{N}\!\left(\mu_1 + \rho\frac{\sigma_1}{\sigma_2}(y_n - \mu_2),\;\sigma_1^2(1-\rho^2)\right)
+ $$</p>
+</li>
+<li><p>Sample</p>
+<p>$$
+ y_{n+1}\sim\mathcal{N}\!\left(\mu_2 + \rho\frac{\sigma_2}{\sigma_1}(x_{n+1} - \mu_1),\;\sigma_2^2(1-\rho^2)\right)
+ $$</p>
+</li>
 </ol>
-$$
-x_{n+1}\sim\mathcal{N}\!\left(\mu_1 + \rho\frac{\sigma_1}{\sigma_2}(y_n - \mu_2),\;\sigma_1^2(1-\rho^2)\right)
-$$<ol start="2">
-<li>Sample</li>
-</ol>
-$$
-y_{n+1}\sim\mathcal{N}\!\left(\mu_2 + \rho\frac{\sigma_2}{\sigma_1}(x_{n+1} - \mu_1),\;\sigma_2^2(1-\rho^2)\right)
-$$<p>If $\rho$ is close to 1, then this algorithm will likely take a while to converge. But it is simple to simulate and demonstrates the mechanics of Gibbs sampling.</p>
+<p>If $\rho$ is close to 1, then this algorithm will likely take a while to converge. But it is simple to simulate and demonstrates the mechanics of Gibbs sampling.</p>
 <h3 id="example-normal-likelihood">Example: Normal Likelihood<a class="anchor-link" href="#example-normal-likelihood">¶</a></h3><p>Suppose we observe $y_1,\dots,y_n\stackrel{\text{iid}}{\sim}\mathcal{N}(\mu, \tau^{-1})$, where $\tau^{-1}$ is the <em>precision</em> of the Normal distribution. We can use independent priors for the two parameters as</p>
 <p>$\mu \sim N(0, w^{-1})$ and $\tau \sim \Gamma(\alpha, \beta)$</p>
 <p>Because the priors are independent here, we will have to use Gibbs sampling to sample from the posterior distribution of $\mu$ and $\tau$.</p>
@@ -2241,7 +2265,7 @@ f(\mathbf{y}\mid\mu,\tau)p(\mu)\\
 &amp; \propto &amp;
 \exp\left(-\frac{\tau}{2}\sum(y_i-\mu)^2\right)\exp\left(-\frac{w}{2}\mu^2\right)\\
 &amp; = &amp;
-\exp\left(-\frac{(n\tau+w)}{2}\mu^2-\left(\sum y_i\right)\tau\mu\right)\\
+\exp\left(-\frac{(n\tau+w)}{2}\mu^2+\left(\sum y_i\right)\tau\mu\right)\\
 &amp; = &amp;
 \mathcal{N}\left(\frac{\tau}{n\tau+w}\sum y_i,\, \frac{1}{n\tau+w}\right)
 \end{eqnarray*}$$<p>and</p>
@@ -2260,12 +2284,31 @@ f(\mathbf{y}\mid\mu,\tau)p(\tau)\\
 \text{Gamma}\left(\alpha+\frac{n}{2},\,\beta+\frac{1}{2}\sum(y_i-\mu)^2\right)
 \end{eqnarray*}$$<p>The Gibbs sampler therefore alternates between sampling from a Normal distribution and a Gamma distribution. In this case, the priors were chosen so that the full conditional distributions could be sampled in closed form.</p>
 <h3 id="gibbs-sampling-and-metropolis-hastings">Gibbs Sampling and Metropolis Hastings<a class="anchor-link" href="#gibbs-sampling-and-metropolis-hastings">¶</a></h3><p>Gibbs sampling has a fairly straightforward connection to the single component Metropolis-Hastings algorithm described earlier. We can reframe the Gibbs sampling algorithm for component i at iteration n as</p>
-<ul>
-<li>Sample</li>
-</ul>
-$$
-y_i\sim q_i(y\mid x^{(n)}_i,x^{(n)}_{-i}) = \pi(y\mid x_{-i}^{(n)})
-$$<p>Here, the proposal distribution is simply the full conditional distribution of $x_i$ given $x_{-i}$.</p>
+<ol>
+<li><p>Sample</p>
+<p>$$
+ y_i\sim q_i(y\mid x^{(n)}_i,x^{(n)}_{-i}) = \pi(y\mid x_{-i}^{(n)})
+ $$</p>
+<p>Here, the proposal distribution is simply the full conditional distribution of $x_i$ given $x_{-i}$.</p>
+</li>
+<li><p>The acceptance probability is then</p>
+<p>$$
+ \alpha(y_i\mid x_i, x_{-i})
+ =
+ \min\left(
+ \frac{
+ \pi(y_i\mid x_{-i})\pi(x_i\mid x_{-i})
+ }{
+ \pi(x_i\mid x_{-i})\pi(y_i\mid x_{-i})
+ },
+ 1
+ \right)
+ =
+ 1
+ $$</p>
+<p>The Gibbs sampling algorithm is like the SCMH algorithm but it always accepts the proposal.</p>
+</li>
+</ol>
 <h3 id="hybrid-gibbs-sampler">Hybrid Gibbs Sampler<a class="anchor-link" href="#hybrid-gibbs-sampler">¶</a></h3><p>Given the relationship between Gibbs sampling and SCMH, we can use this to extend the basic Gibbs algorithm. In some cases, we will not be able to sample directly from the full conditional distribution of a component. In those cases, we can substitute a standard Metropolis-Hastings step with a proposal/acceptance procedure.</p>
 <p>For components that require a Metropolis-Hastings step, we will need to come up with a proposal density for those components. In this case, the <em>target density</em> is simply the full conditional of component $i$ given the other components. For component $i$ then, the algorithm proceeds as</p>
 <ol>
@@ -2320,6 +2363,58 @@ $$
 \text{logit}^{-1}(z) = \frac{\exp(z)}{1+\exp(z)}
 $$<p>Because the transformation here is for a single parameter, the determinant is straightforward. However, for a multi-dimensional mapping, we would need an extra step to compute the determinant.</p>
 <p>In Python, we can compute this Jacobian (and that for any other transformation) analytically using NumPy, or numerically via finite differences using <code>scipy.optimize.approx_fprime()</code>.</p>
+<h3 id="example-bernoulli-random-effects-model">Example: Bernoulli Random Effects Model<a class="anchor-link" href="#example-bernoulli-random-effects-model">¶</a></h3><p>Suppose we observe longitudinal binary data that follow</p>
+$$\begin{eqnarray*}
+y_{ij} &amp; \sim &amp; \text{Bernoulli}(\lambda_{ij})\\
+\text{logit}(\lambda_{ij}) &amp; = &amp; \alpha_i\\
+\alpha_i &amp; \sim &amp; \mathcal{N}(\mu, \sigma^2)\\
+\mu &amp; \sim &amp; \mathcal{N}(0, D)\\
+\sigma &amp; \sim &amp; \text{InverseGamma}(a, b)
+\end{eqnarray*}$$<p>where $i=1,\dots,n$ and $j=1,\dots,G$.</p>
+<p>For this example, assume that the hyperparameters $a$, $b$, and $D$ are known. The goal is to sample from the posterior of $\mu$ and $\sigma$. The joint posterior of the parameters given the data is</p>
+$$\begin{eqnarray*}
+\pi(\mu, \sigma, \mathbf{\alpha}\mid\mathbf{y})
+&amp; \propto &amp;
+\prod_{i=1}^n
+\left[
+\prod_{j=1}^G
+p(y_{ij}\mid\text{logit}^{-1}(\alpha_i))
+\right]\\
+&amp; &amp;
+\times
+\varphi(\alpha_i\mid\mu,\sigma^2)
+\varphi(\mu\mid 0, D)
+g(\sigma)
+\end{eqnarray*}$$<p>where $p()$ is the Bernoulli density, $\varphi$ is the Normal density, and $g()$ is the inverse gamma density.</p>
+<p>To implement the Gibbs sampler, we need to cycle through three classes of full conditional distributions. First is the full conditional for $\sigma$, which can be written in closed form given the prior. In order to compute the full conditional, we simply select everything from the full posterior that has a $\sigma$ in it.</p>
+$$\begin{eqnarray*}
+p(\sigma\mid\cdot)
+&amp; \propto &amp;
+\left[\prod_{i=1}^n
+\varphi(\alpha_i\mid\mu,\sigma^2)\right] g(\sigma)\\
+&amp; = &amp;
+\text{InverseGamma}\left(a + \frac{n}{2}, b+\frac{1}{2}\sum(\alpha_i-\mu)^2\right)
+\end{eqnarray*}$$<p>Similarly, we can pick out all the components of the full posterior that have a $\mu$ and the full conditional distribution for $\mu$ is</p>
+$$\begin{eqnarray*}
+p(\mu\mid\cdot)
+&amp; \propto &amp;
+\left[\prod_{i=1}^n
+\varphi(\alpha_i\mid\mu,\sigma^2)\right]
+\varphi(\mu\mid 0, D)\\
+&amp; = &amp;
+\mathcal{N}\left(
+\frac{D}{D+\sigma^2/n}\,\bar{\alpha},\,\frac{\sigma^2/n}{\sigma^2/n + D}D
+\right)
+\end{eqnarray*}$$<p>where $\bar{\alpha} = \frac{1}{n}\sum\alpha_i$.</p>
+<p>Finally, the full conditionals for $\alpha_i$ can be computed independently because the $\alpha_i$s are assumed to be independent.</p>
+$$
+p(\alpha_i\mid\cdot)
+\propto
+\left[\prod_{j=1}^G
+p(y_{ij}\mid\text{logit}^{-1}(\alpha_i))
+\right]
+\varphi(\alpha_i\mid\mu,\sigma^2).
+$$<p>Unfortunately, there is no way to simplify this further with the combination of the Bernoulli likelihood and the Normal random effects distribution. Therefore, some proposal/acceptance step will have to be run to sample from the $\alpha_i$s.</p>
 </div>
 </div>
 </div>
@@ -2485,7 +2580,7 @@ print(f"Jacobian at x=0: {jacobian_sigmoid(0):.4f}")</div>
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

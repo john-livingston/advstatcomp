@@ -27,7 +27,7 @@
     
     
       
-        <title>6.3 Importance Sampling - Advanced Statistical Computing with Python</title>
+        <title>6.4 Importance Sampling - Advanced Statistical Computing with Python</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#63-importance-sampling" class="md-skip">
+        <a href="#64-importance-sampling" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              6.3 Importance Sampling
+              6.4 Importance Sampling
             
           </span>
         </div>
@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1252,6 +1224,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1259,7 +1259,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1296,7 +1296,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1314,7 +1314,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2128,7 +2128,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="63-importance-sampling">6.3 Importance Sampling<a class="anchor-link" href="#63-importance-sampling">¶</a></h1>
+<h1 id="64-importance-sampling">6.4 Importance Sampling<a class="anchor-link" href="#64-importance-sampling">¶</a></h1>
 </div>
 </div>
 </div>
@@ -2141,12 +2141,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="importance-sampling">Importance Sampling<a class="anchor-link" href="#importance-sampling">¶</a></h2><p>With rejection sampling, we ultimately obtain a sample from the target density $f$. With that sample, we can create any number of summaries, statistics, or visualizations. However, what if we are interested in the more narrow problem of computing a mean, such as $\mathbb{E}_f[h(X)]$ for some function $h:\mathbb{R}^k\rightarrow\mathbb{R}$? Clearly, this is a problem that can be solved with rejection sampling: First obtain a sample $x_1,\dots,x_n\sim f$ and then compute</p>
 $$\hat{\mu}_n = \frac{1}{n}\sum_{i=1}^n h(x_i).
-
-$$<p>However, with rejection sampling, in order to obtain a sample of size $n$, we must generate, on average, $c \times n$ candidates from $g$, the candidate density, and then reject about $(c-1) \times n$ of them. If $c \approx 1$ then this will not be too inefficient. But in general, if $c$ is much larger than 1 then we will be generating a lot of candidates from $g$ and ultimately throwing most of them away.</p>
+$$<p>with the obtained sample. As $n\rightarrow\infty$ we know by the Law of Large Numbers that $\hat{\mu}_n\rightarrow\mathbb{E}_f[h(X)]$. Further, the Central Limit Theorem gives us $\sqrt{n}(\hat{\mu}_n-\mathbb{E}_f[h(X)])\longrightarrow\mathcal{N}(0,\sigma^2)$. So far so good.</p>
+<p>However, with rejection sampling, in order to obtain a sample of size $n$, we must generate, on average, $c \times n$ candidates from $g$, the candidate density, and then reject about $(c-1) \times n$ of them. If $c \approx 1$ then this will not be too inefficient. But in general, if $c$ is much larger than 1 then we will be generating a lot of candidates from $g$ and ultimately throwing most of them away.</p>
 <p>It's worth noting that in most cases, the candidates generated from $g$ fall within the domain of $f$, so that they are in fact values that could plausibly come from $f$. They are simply over- or under-represented in the frequency with which they appear. For example, if $g$ has heavier tails than $f$, then there will be too many extreme values generated from $g$. Rejection sampling simply thins out those extreme values to obtain the right proportion. But what if we could take those rejected values and, instead of discarding them, simply downweight or upweight them in a specific way?</p>
 <p>Note that we can rewrite the target estimation as follows,</p>
 $$\mathbb{E}_f[h(X)] = \mathbb{E}_g\left[\frac{f(X)}{g(X)}h(X)\right].
-
 $$<p>Hence, if $x_1,\dots,x_n\sim g$, drawn from the candidate density, we can say</p>
 $$\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}h(x_i) = \frac{1}{n}\sum_{i=1}^n w_i h(x_i) \approx \mathbb{E}_f[h(X)]$$<p>In the equation above, the values $w_i = f(x_i)/g(x_i)$ are referred to as the <em>importance weights</em> because they take each of the candidates $x_i$ generated from $g$ and reweight them when taking the average. Note that if $f = g$, so that we are simply sampling from the target density, then this estimator is just the sample mean of the $h(x_i)$s. The estimator $\tilde{\mu}_n$ is known as the <em>importance sampling</em> estimator.</p>
 <p>When comparing rejection sampling with importance sampling, we can see that</p>
@@ -2158,12 +2157,22 @@ $$\tilde{\mu}_n = \frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}h(x_i) = \frac{1}{
 <p>In fact, we can see this by writing the rejection sampling estimator of the expectation in a different way. Let $c=\sup_{x\in\mathcal{X}_f}f(x)/g(x)$. Given a sample $x_1,\dots,x_n\sim g$ and $u_1,\dots,u_n\sim\text{Unif}(0,1)$, then</p>
 $$\hat{\mu}_n = \frac{\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}h(x_i)}{\sum_i\mathbf{1}\left\{u_i\leq\frac{f(x_i)}{c\,g(x_i)}\right\}}$$<p>What importance sampling does, effectively, is replace the indicator functions in the above expression with their expectation. So instead of having a hard threshold, where observation $x_i$ is either included (accepted) or not (rejected), importance sampling smooths out the acceptance/rejection process so that every observation plays some role.</p>
 <p>If we take the expectation of the indicator functions above, we get (note that the $c$s cancel)</p>
-$$\tilde{\mu}_n = \frac{\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)}{\sum_i \frac{f(x_i)}{g(x_i)}} = \frac{\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)}{\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}}$$<p>Note that we do not need to know the normalizing constants for the target density or the candidate density. If $f^\star$ and $g^\star$ are the unnormalized target and candidate densities, respectively, then we can use the modified importance sampling estimator,</p>
+$$\tilde{\mu}_n = \frac{\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)}{\sum_i \frac{f(x_i)}{g(x_i)}} = \frac{\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}h(x_i)}{\frac{1}{n}\sum_i \frac{f(x_i)}{g(x_i)}}$$<p>which is roughly equivalent to the importance sampling estimate if we take into account that</p>
+$$
+\frac{1}{n}\sum_{i=1}^n\frac{f(x_i)}{g(x_i)}\approx 1
+$$<p>because</p>
+$$
+\mathbb{E}_g\left[\frac{f(X)}{g(X)}\right]
+=
+\int \frac{f(x)}{g(x)}g(x)\,dx
+=
+1
+$$<p>The point of all this is to show that the importance sampling estimator of the mean can be seen as a "smoothed out" version of the rejection sampling estimator. The advantage of the importance sampling estimator is that it does not discard any data and thus is more efficient.</p>
+<p>Note that we do not need to know the normalizing constants for the target density or the candidate density. If $f^\star$ and $g^\star$ are the unnormalized target and candidate densities, respectively, then we can use the modified importance sampling estimator,</p>
 $$\mu^\star_n = \frac{\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}h(x_i)}{\sum_i\frac{f^\star(x_i)}{g^\star(x_i)}}.
-
-$$<h3 id="example-bayesian-sensitivity-analysis">Example: Bayesian Sensitivity Analysis<a class="anchor-link" href="#example-bayesian-sensitivity-analysis">¶</a></h3><p>An interesting application of importance sampling is the examination of the sensitivity of posterior inferences with respect to prior specification. Suppose we observe data $y$ with density $f(y\mid\theta)$ and we specify a prior for $\theta$ as $\pi(\theta\mid\psi_0)$, where $\psi_0$ is a hyperparameter. The posterior for $\theta$ is thus</p>
+$$<p>We can then use <a href="https://en.wikipedia.org/wiki/Slutsky%27s_theorem">Slutsky's Theorem</a> to say that $\mu^\star_n\rightarrow\mathbb{E}_f[h(X)]$.</p>
+<h3 id="example-bayesian-sensitivity-analysis">Example: Bayesian Sensitivity Analysis<a class="anchor-link" href="#example-bayesian-sensitivity-analysis">¶</a></h3><p>An interesting application of importance sampling is the examination of the sensitivity of posterior inferences with respect to prior specification. Suppose we observe data $y$ with density $f(y\mid\theta)$ and we specify a prior for $\theta$ as $\pi(\theta\mid\psi_0)$, where $\psi_0$ is a hyperparameter. The posterior for $\theta$ is thus</p>
 $$p(\theta\mid y, \psi_0) \propto f(y\mid\theta)\pi(\theta\mid\psi_0)
-
 $$<p>and we would like to compute the posterior mean of $\theta$. If we can draw $\theta_1,\dots,\theta_n$, a sample of size $n$ from $p(\theta\mid y,\psi_0)$, then we can estimate the posterior mean with $\frac{1}{n}\sum_i\theta_i$. However, this posterior mean is estimated using a specific hyperparameter $\psi_0$. What if we would like to see what the posterior mean would be for a different value of $\psi$? Do we need to draw a new sample of size $n$? Thankfully, the answer is no. We can simply take our existing sample $\theta_1,\dots,\theta_n$ and reweight it to get our new posterior mean under a different value of $\psi$.</p>
 <p>Given a sample $\theta_1,\dots,\theta_n$ drawn from $p(\theta\mid y,\psi_0)$, we would like to know $\mathbb{E}[\theta\mid y, \psi]$ for some $\psi\ne\psi_0$. The idea is to treat our original $p(\theta\mid y,\psi_0)$ as a "candidate density" from which we have already drawn a large sample $\theta_1,\dots,\theta_n$. Then we want know the posterior mean of $\theta$ under a "target density" $p(\theta\mid y,\psi)$. We can then write our importance sampling estimator as</p>
 $$\begin{eqnarray*}
@@ -2190,10 +2199,8 @@ $$\begin{eqnarray*}
 <h3 id="properties-of-the-importance-sampling-estimator">Properties of the Importance Sampling Estimator<a class="anchor-link" href="#properties-of-the-importance-sampling-estimator">¶</a></h3><p>So far we've talked about how to estimate an expectation with respect to an arbitrary target density $f$ using importance sampling. However, we haven't discussed yet what is the variance of that estimator. An analysis of the variance of the importance sampling estimator is assisted by the <a href="https://en.wikipedia.org/wiki/Delta_method">Delta method</a> and by viewing the importance sampling estimator as a ratio estimator.</p>
 <p>Recall that the Delta method states that if $Y_n$ is a $k$-dimensional random variable with mean $\mu$, $g:\mathbb{R}^k\rightarrow\mathbb{R}$ and is differentiable, and further we have</p>
 $$\sqrt{n}(Y_n-\mu)\stackrel{D}{\longrightarrow}\mathcal{N}(0,\Sigma)
-
 $$<p>then</p>
 $$\sqrt{n}(g(Y_n)-g(\mu)) \stackrel{D}{\longrightarrow} \mathcal{N}(0, g^\prime(\mu)^\prime\Sigma g^\prime(\mu))
-
 $$<p>For the importance sampling estimator, we have $f$ is the target density, $g$ is the candidate density, and $x_1,\dots,x_n$ are samples from $g$. The estimator of $\mathbb{E}_f[h(X)]$ is written as</p>
 $$\frac{\frac{1}{n}\sum_i h(x_i) w(x_i)}{\frac{1}{n}\sum_i w(x_i)}$$<p>where</p>
 $$w(x_i) = \frac{f(x_i)}{g(x_i)}$$<p>are the importance sampling weights.</p>
@@ -2202,18 +2209,26 @@ $$
 Y_n = \left(\frac{1}{n}\sum h(x_i) w_i,\,\frac{1}{n}\sum w_i\right)
 $$<p>then the importance sampling estimator is simply $g(Y_n)$. Furthremore, we have</p>
 $$\mathbb{E}_g[Y_n] = \mathbb{E}_g\left[\left(\frac{1}{n}\sum h(x_i) w(x_i),\,\frac{1}{n}\sum w(x_i)\right)\right] = (\mathbb{E}_f[h(X)], 1) = \mu
-
-$$<p>Therefore, the variance of the importance sampling estimator of $\mathbb{E}_f[h(X)]$ is $g^\prime(Y_n)^\prime\Sigma g^\prime(Y_n)$ which we can expand to</p>
+$$<p>and</p>
+$$
+\Sigma
+=
+n\,\text{Var}(Y_n)
+=
+\left(
+\begin{array}{cc}
+\text{Var}(h(X)w(X)) &amp; \text{Cov}(h(X)w(X), w(X))\\
+\text{Cov}(h(X)w(X), w(X)) &amp; \text{Var}(w(X))
+\end{array}
+\right)
+$$<p>Note that the above quantity can be estimated consistently using the sample versions of each quantity in the matrix.</p>
+<p>Therefore, the variance of the importance sampling estimator of $\mathbb{E}_f[h(X)]$ is $g^\prime(Y_n)^\prime\Sigma g^\prime(Y_n)$ which we can expand to</p>
 $$n\left(\frac{\sum h(x_i)w(x_i)}{\sum w(x_i)}\right)^2\left(\frac{\sum h(x_i)^2w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)^2}-2\frac{\sum h(x_i)w(x_i)^2}{\left(\sum h(x_i)w(x_i)\right)\left(\sum w(x_i)\right)}+\frac{\sum w(x_i)^2}{\left(\sum w(x_i)\right)^2}\right)
-
 $$<p>Given this, for the importance sampling estimator, we need the following to be true,</p>
-$$\mathbb{E}_g[h(X)^2w(X)^2] = \mathbb{E}_g\left[h(X)\frac{f(X)}{g(X)}\right] &lt; \infty,
-
+$$\mathbb{E}_g[h(X)^2w(X)^2] = \mathbb{E}_g\left[h(X)^2\left(\frac{f(X)}{g(X)}\right)^2\right] &lt; \infty,
 $$$$\mathbb{E}_g[w(X)^2] = \mathbb{E}_g\left[\left(\frac{f(X)}{g(X)}\right)^2\right] &lt; \infty,
-
 $$<p>and</p>
 $$\mathbb{E}_g\left[h(X)w(X)^2\right] = \mathbb{E}_g\left[h(X)\left(\frac{f(X)}{g(X)}\right)^2\right] &lt; \infty.
-
 $$<p>All of the above conditions are true if the conditions for rejection sampling are satisfied, that is, if $\sup_{x\in\mathcal{X}_f}f(x)/g(x) &lt; \infty$.</p>
 </div>
 </div>
@@ -2261,7 +2276,7 @@ $$<p>All of the above conditions are true if the conditions for rejection sampli
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ch06_rejection_sampling/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6.2 Rejection Sampling">
+          <a href="../ch06_rejection_sampling/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6.3 Rejection Sampling">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2271,7 +2286,7 @@ $$<p>All of the above conditions are true if the conditions for rejection sampli
                 Previous
               </span>
               <div class="md-ellipsis">
-                6.2 Rejection Sampling
+                6.3 Rejection Sampling
               </div>
             </div>
           </a>
@@ -2328,7 +2343,7 @@ $$<p>All of the above conditions are true if the conditions for rejection sampli
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

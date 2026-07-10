@@ -1116,34 +1116,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1247,6 +1219,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1254,7 +1254,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1282,7 +1282,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1990,14 +1990,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>The general optimization problem can be stated as follows. Given a fiunction $f: \mathbb{R}^k\rightarrow\mathbb{R}$, we want to find $\min_{x\in S}f(x)$, where $S\subset\mathbb{R}^k$. The general approach to solving this problem that we will discuss is called a <em>line search method</em>. With line search methods, given $f$ and a current estimate $x_n$ of the location of the minimum, we want to</p>
+<p>The general optimization problem can be stated as follows. Given a function $f: \mathbb{R}^k\rightarrow\mathbb{R}$, we want to find $\min_{x\in S}f(x)$, where $S\subset\mathbb{R}^k$. The general approach to solving this problem that we will discuss is called a <em>line search method</em>. With line search methods, given $f$ and a current estimate $x_n$ of the location of the minimum, we want to</p>
 <ol>
 <li>Choose a direction $p_n$ in $k$-dimensional space;</li>
 <li>Choose a step length in the direction $p_n$, usually by solving $\min_{\alpha&gt;0} f(x_n + \alpha p_n)$ to get $\alpha_n$</li>
 <li>Update our estimate with $x_{n+1} = x_n + \alpha_n p_n$.</li>
 </ol>
 <p>Clearly then, with line search methods, the two questions one must answer are how should we choose the direction? and how far should we step? Almost all line search approaches provide variations on the answers to those two questions.</p>
-<p>Care must be taken in addressing the problems involved with line search methods because typically one must assume that the size of the parameter space is large (i.e. $k$ is large). Therefore, one of constraints for all methods is minimizing the amount of computation that needs to be done due to the large parameter space. Efficiency with respect to memory (storage of data or parameters) and computation time is key.</p>
+<p>Care must be taken in addressing the problems involved with line search methods because typically one must assume that the size of the parameter space is large (i.e. $k$ is large). Therefore, one of the constraints for all methods is minimizing the amount of computation that needs to be done due to the large parameter space. Efficiency with respect to memory (storage of data or parameters) and computation time is key.</p>
 </div>
 </div>
 </div>
@@ -2111,7 +2111,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

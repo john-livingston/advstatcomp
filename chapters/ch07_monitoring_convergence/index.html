@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1252,6 +1224,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1259,7 +1259,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1287,7 +1287,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1549,17 +1549,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#gelman-rubin-statistic_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gelman-Rubin Statistic
-      
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -1658,17 +1647,6 @@
         
           <li class="md-nav__item">
   <a href="#gelman-rubin-statistic" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gelman-Rubin Statistic
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gelman-rubin-statistic_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Gelman-Rubin Statistic
@@ -2149,9 +2127,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <h2 id="monitoring-convergence">Monitoring Convergence<a class="anchor-link" href="#monitoring-convergence">¶</a></h2><p>Once you've got your simulated Markov chain running, the question arises regarding when it should be stopped. On an infinite timeline, we know from theory that the samples drawn from the chain will come from the target density. On every <em>other</em> timeline, we must design some rule for stopping the chain in order to get things like parameter estimates or posterior distributions.</p>
 <p>Determining how and when to stop a chain depends a bit on what exactly you are trying to do. In many cases, regardless of your inferential philosophy, you are trying to obtain an estimate of a parameter in a model. Typically, we estimate these parameters by using a summary statistic like the mean of the posterior distribution. We calculate this summary statistic by drawing samples from the posterior and computing the arithmetic mean.</p>
 <p>Hence, we are <em>estimating a parameter</em> and in doing so we must worry about the usual things we worry about when estimating a parameter. In particular, we must worry about the uncertainty introduced by our procedure, which in this case is the Markov chain Monte Carlo sampling procedure. If our chain ran to infinity, we would have <em>no uncertainty</em> due to MCMC sampling (we would still have other kinds of uncertainty, such as from our finite dataset). But because our chain will not run to infinity, stopping the chain can be thought of as answering the question of how much Monte Carlo uncertainty is acceptable.</p>
-<h3 id="monte-carlo-standard-errors">Monte Carlo Standard Errors<a class="anchor-link" href="#monte-carlo-standard-errors">¶</a></h3><p>One way to measure the amount of uncertainty introduced through MCMC sampling is with Monte Carlo standard errors. The thought experiment here is, if we were to repeatedly run our MCMC sampler (with different random number generator seeds!) for a fixed NN number of iterations, how much variability would we expect to see in our estimate of the parameter? Monte Carlo standard errors should give us a sense of this variability. If the standard errors are two big, we can run the sampler for longer. Exactly how long we will need to run the sampler to achieve a given standard error will depend on the efficiency and mixing of the sampler.</p>
+<h3 id="monte-carlo-standard-errors">Monte Carlo Standard Errors<a class="anchor-link" href="#monte-carlo-standard-errors">¶</a></h3><p>One way to measure the amount of uncertainty introduced through MCMC sampling is with Monte Carlo standard errors. The thought experiment here is, if we were to repeatedly run our MCMC sampler (with different random number generator seeds!) for a fixed $N$ number of iterations, how much variability would we expect to see in our estimate of the parameter? Monte Carlo standard errors should give us a sense of this variability. If the standard errors are too big, we can run the sampler for longer. Exactly how long we will need to run the sampler to achieve a given standard error will depend on the efficiency and mixing of the sampler.</p>
 <p>One way to compute Monte Carlo standard errors is with the method of <em>batch means</em>. The idea here is we divide our long MCMC sampler chain into equal size segments and compute our summary statistic on each segment. If the segments are of the proper size, we can think of them as "independent replicates", even though individual samples of the MCMC sampler will not be independent of each other in general. From these replicates, we compute an estimate of variability from the given chain.</p>
-<p>More specifically, suppose $x_1, x_2, x_3, \ldots$ are samples from an MCMC sampler that we have run for $N$ iterations and we want to estimate $\mathbb{E}[h(X)]$ where the expectation is take with respect to some posterior distribution. We first decide on a batch size $K$ and let's assume that $N/K = M$ where $M$ is an integer. We then divide the chain into segments $x_1,\ldots,x_K$, $x_{K+1},\ldots,x_{2K}$, etc. From here, we can compute our segment summary statistics,</p>
+<p>More specifically, suppose $x_1, x_2, x_3, \ldots$ are samples from an MCMC sampler that we have run for $N$ iterations and we want to estimate $\mathbb{E}[h(X)]$ where the expectation is taken with respect to some posterior distribution. We first decide on a batch size $K$ and let's assume that $N/K = M$ where $M$ is an integer. We then divide the chain into segments $x_1,\ldots,x_K$, $x_{K+1},\ldots,x_{2K}$, etc. From here, we can compute our segment summary statistics,</p>
 $$\begin{eqnarray*}
 \bar{b}_1 &amp;=&amp; \frac{1}{K}\sum_{i=1}^{K} h(x_i)\\
 \bar{b}_2 &amp;=&amp; \frac{1}{K}\sum_{i=K+1}^{2K} h(x_i)\\
@@ -2160,9 +2138,10 @@ $$\begin{eqnarray*}
 \end{eqnarray*}$$<p>Here, we can confirm that</p>
 $$\bar{b} = \frac{1}{M}\sum_{i=1}^M \bar{b}_i = \frac{1}{KM}\sum_{i=1}^{KM} h(x_i) \longrightarrow \mathbb{E}[h(X)]$$<p>as $N\rightarrow\infty$.</p>
 <p>Once we have the batch means, we can compute a standard error based on the assumed ergodicity of the chain, which gives us,</p>
-$$\sqrt{M}\left(\frac{\bar{b} - \mathbb{E}[h(X)]}{s}\right) \longrightarrow \mathcal{N}(0,1).$$<p>The batch means standard error is the square root of</p>
-$$s^2 = \frac{K}{M}\sum_{i=1}^M (\bar{b}_i - \bar{b})^2.$$<p>For a specific implementation of the batch means procedure, one can use the method of <a href="https://arxiv.org/abs/math/0601446">Jones, Haran, Caffo, and Neath</a>. The source code for this procedure is available at <a href="http://www.stat.psu.edu/~mharan/batchmeans.R">Murali Haran's web site</a>. Jones, <em>et al</em> recommend a batch size of $N^{1/2}$ (or the smallest integer closest to that) and that is the default setting for their software. If the chain is mixing relatively well, a batch size of $N^{1/3}$ can be used and may be more efficient.</p>
-<p>It's worth noting that the Monte Carlo standard error is a quantity with units attached to it. Therefore, determining when the standard error is "small enough" will require a certain understanding of the context in which the problem is being addressed. No universial recommendation can be made on how small is small enough. Some view this property as a downside, preferring something that is "unit free", but I see it as an important reminder that these parameters that we are estimating come from the real world and are addressing real problems.</p>
+$$\sqrt{N}\left(\frac{\bar{b} - \mathbb{E}[h(X)]}{\hat\sigma}\right) \longrightarrow \mathcal{N}(0,1),$$<p>where</p>
+$$\hat\sigma^2 = \frac{K}{M}\sum_{i=1}^M (\bar{b}_i - \bar{b})^2.$$<p>The batch means standard error is then $\text{SE} = \sqrt{\hat\sigma^2/N}$.</p>
+<p>For a specific implementation of the batch means procedure, one can use the method of <a href="https://arxiv.org/abs/math/0601446">Jones, Haran, Caffo, and Neath</a>. The source code for this procedure is available at <a href="http://www.stat.psu.edu/~mharan/batchmeans.R">Murali Haran's web site</a>. Jones, <em>et al</em> recommend a batch size of $N^{1/2}$ (or the smallest integer closest to that) and that is the default setting for their software. If the chain is mixing relatively well, a batch size of $N^{1/3}$ can be used and may be more efficient.</p>
+<p>It's worth noting that the Monte Carlo standard error is a quantity with units attached to it. Therefore, determining when the standard error is "small enough" will require a certain understanding of the context in which the problem is being addressed. No universal recommendation can be made on how small is small enough. Some view this property as a downside, preferring something that is "unit free", but I see it as an important reminder that these parameters that we are estimating come from the real world and are addressing real problems.</p>
 <h3 id="gelman-rubin-statistic">Gelman-Rubin Statistic<a class="anchor-link" href="#gelman-rubin-statistic">¶</a></h3><p>Another approach to monitoring the convergence of a MCMC sampler is to think about what we might expect when a chain has "converged". If we were to start multiple parallel chains in many different starting values, the theory claims that they should all eventually converge to the stationary distribution. So after some amount of time, it should be impossible to distinguish between the multiple chains. They should all "look" like the stationary distribution. One way to assess this is to compare the variation between chains to the variation within the chains. If all the chains are "the same", then the between chain variation should be close to zero.</p>
 <p>Let $x^{(j)}_1, x^{(j)}_2, \ldots$ be samples from the $j$th Markov chain and suppose there are J chains run in parallel with different starting values.</p>
 <ol>
@@ -2176,9 +2155,11 @@ B &amp;=&amp; \frac{L}{J-1}\sum_{j=1}^J (\bar{x}_j - \bar{x}_{\cdot})^2 \quad\te
 s^2_j &amp;=&amp; \frac{1}{L-1}\sum_{t=1}^L (x^{(j)}_t - \bar{x}_j)^2 \quad\text{(within chain variance)}\\
 W &amp;=&amp; \frac{1}{J}\sum_{j=1}^J s^2_j
 \end{eqnarray*}$$<ol start="3">
-<li>The Gelman-Rubin statistic is then</li>
+<li><p>The Gelman-Rubin statistic is then</p>
+<p>$$\hat{R} = \sqrt{\frac{\dfrac{L-1}{L}W + \dfrac{1}{L}B}{W}}$$</p>
+</li>
 </ol>
-$$\hat{R} = \sqrt{\frac{\dfrac{L-1}{L}W + \dfrac{1}{L}B}{W}}$$<p>We can see that as $L\rightarrow\infty$ and as $B\downarrow 0$, R approaches the value of 1. One can then reason that we should run our chains until the value of R is close to 1, say in the neighborhood of 1.1 or 1.2.</p>
+<p>We can see that as $L\rightarrow\infty$ and as $B\downarrow 0$, R approaches the value of 1. One can then reason that we should run our chains until the value of R is close to 1, say in the neighborhood of 1.1 or 1.2.</p>
 <p>The Gelman-Rubin statistic is a ratio, and hence unit free, making it a simple summary for any MCMC sampler. In addition, it can be implemented without first specifying a parameter that is to be estimated, unlike Monte Carlo standard errors. Therefore, it can be a useful tool for monitoring a chain before any specific decisions about what kinds of inferences will be made from the model.</p>
 <p>While the Gelman-Rubin statistic is intuitively appealing and is practically useful, it can demonstrate some undesirable properties. In particular, <a href="https://arxiv.org/abs/math/0703746">Flegal <em>et al.</em></a> report that the Gelman-Rubin statistic can be unstable, leading to both very long runs and very short runs. The result is that the uncertainty of any parameter being estimated with a MCMC sampler will be greater than that estimated using MC standard errors.</p>
 <p>Therefore, for the purposes of parameter estimation, it would seem for now that Monte Carlo standard errors are a better way to go. The other benefit of the Monte Carlo standard error approach is that you don't have to worry about burn-in (i.e. no samples are discarded). However, for more general Markov chain monitoring, the Gelman-Rubin statistic may be a reasonable tool to use.</p>
@@ -2466,7 +2447,7 @@ plt.tight_layout()</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="gelman-rubin-statistic">Gelman-Rubin Statistic<a class="anchor-link" href="#gelman-rubin-statistic">¶</a></h3><p>An alternative to Monte Carlo standard errors is the Gelman-Rubin statistic $\hat{R}$, which compares between-chain and within-chain variance across multiple parallel chains. When the chains have converged, $\hat{R}$ should be close to 1.</p>
+<p>An alternative to Monte Carlo standard errors is the Gelman-Rubin statistic $\hat{R}$, which compares between-chain and within-chain variance across multiple parallel chains. When the chains have converged, $\hat{R}$ should be close to 1.</p>
 </div>
 </div>
 </div>
@@ -2793,7 +2774,7 @@ plt.tight_layout()</div>
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

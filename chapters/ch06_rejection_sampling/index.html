@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://john-livingston.github.io/advstatcomp/chapters/ch06_rejection_sampling/">
       
       
-        <link rel="prev" href="../ch06_random_number_generation/">
+        <link rel="prev" href="../ch06_non_uniform_random_numbers/">
       
       
         <link rel="next" href="../ch06_importance_sampling/">
@@ -27,7 +27,7 @@
     
     
       
-        <title>6.2 Rejection Sampling - Advanced Statistical Computing with Python</title>
+        <title>6.3 Rejection Sampling - Advanced Statistical Computing with Python</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#62-rejection-sampling" class="md-skip">
+        <a href="#63-rejection-sampling" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              6.2 Rejection Sampling
+              6.3 Rejection Sampling
             
           </span>
         </div>
@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1249,6 +1221,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1268,7 +1268,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1286,7 +1286,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1384,7 +1384,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2150,7 +2150,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="62-rejection-sampling">6.2 Rejection Sampling<a class="anchor-link" href="#62-rejection-sampling">¶</a></h1>
+<h1 id="63-rejection-sampling">6.3 Rejection Sampling<a class="anchor-link" href="#63-rejection-sampling">¶</a></h1>
 </div>
 </div>
 </div>
@@ -2161,9 +2161,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="rejection-sampling">Rejection Sampling<a class="anchor-link" href="#rejection-sampling">¶</a></h2><p>What do we do if we want to generate samples of a random variable with density ff and there isn’t a built in function for doing this? If the random variable is of a reasonably low dimension (less than 10?), then <em>rejection sampling</em> is a plausible general approach.</p>
+<h2 id="rejection-sampling">Rejection Sampling<a class="anchor-link" href="#rejection-sampling">¶</a></h2><p>What do we do if we want to generate samples of a random variable with density f and there isn’t a built in function for doing this? If the random variable is of a reasonably low dimension (less than 10?), then <em>rejection sampling</em> is a plausible general approach.</p>
 <p>The idea of rejection sampling is that although we cannot easily sample from f, there exists another density g, like a Normal distribution or perhaps a t-distribution, from which it is easy for us to sample (because there’s a built in function or someone else wrote a nice function). Then we can sample from g directly and then “reject” the samples in a strategic way to make the resulting “non-rejected” samples look like they came from f. The density g will be referred to as the “candidate density” and f will be the “target density”.</p>
-<p>In order to use the rejections sampling algorithm, we must first ensure that the support of f is a subset of the support of g. If $\mathcal{X}_f$ is the support of f and $\mathcal{X}_g$ is the support of g, then we must have $\mathcal{X}_f \subset \mathcal{X}_g$. This makes sense: if there's a region of the support of f that g can never touch, then that area will never get sampled. In addition, we must assume that
+<p>In order to use the rejection sampling algorithm, we must first ensure that the support of f is a subset of the support of g. If $\mathcal{X}_f$ is the support of f and $\mathcal{X}_g$ is the support of g, then we must have $\mathcal{X}_f \subset \mathcal{X}_g$. This makes sense: if there's a region of the support of f that g can never touch, then that area will never get sampled. In addition, we must assume that
 $c=\sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}&lt;\infty$
 and that we can calculate c. The easiest way to satisfy this assumption is to make sure that g has heavier tails than f. We cannot have that g decreases at a faster rate than f in the tails or else rejection sampling will not work.</p>
 <h3 id="the-algorithm">The Algorithm<a class="anchor-link" href="#the-algorithm">¶</a></h3><p>The rejection sampling algorithm for drawing a sample from the target density f is then</p>
@@ -2242,6 +2242,23 @@ plt.tight_layout()</div>
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65ad12c8">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Given what we know about the standard Normal density, most of the samples should be between -3 and +3, except perhaps in very large samples (this is a sample of size 200). From the picture, there are samples in the range of 4–6. In order to transform the t2 samples into N(0,1) samples, we will need to reject many of the samples out in the tail. On the other hand, there are too few samples in the range of [-2,2] and so we will have to disproportionately accept samples in that range until it represents the proper N(0,1) density.</p>
+<p>Before we move on, it’s worth noting that the rejection sampling method requires that we can <em>evaluate</em> the target density f. That is how we compute the rejection/acceptance ratio in Step 2. In most cases, this will not be a problem.</p>
+<h3 id="properties-of-rejection-sampling">Properties of Rejection Sampling<a class="anchor-link" href="#properties-of-rejection-sampling">¶</a></h3><p>One property of the rejection sampling algorithm is that the number of draws we need to take from the candidate density g before we accept a candidate is a geometric random variable with success probability 1/c. We can think of the decision to accept or reject a candidate as a sequence of iid coin flips that has a specific probability of coming up “heads” (i.e. being accepted). That probability is 1/c and we can calculate that as follows.</p>
+$$
+\mathbb{P}(X \text{ accepted})=\mathbb{P}\left(U\leq\frac{f(X)}{c\,g(X)}\right)=\int\mathbb{P}\left(U\leq\frac{f(x)}{c\,g(x)}\mid X=x\right)g(x)\,dx=\int\frac{f(x)}{c\,g(x)}g(x)\,dx=\frac{1}{c}
+$$<p>This property of rejection sampling has implications for how we choose the candidate density g. In theory, any density can be chosen as the candidate as long as its support includes the support of f. However, in practice we will want to choose g so that it matches f as closely as possible. As a rule of thumb, candidates g that match f closely will have smaller values of c and thus will accept candidates with higher probability. We want to avoid large values of c because large values of c lead to an algorithm that rejects a lot of candidates and has lower efficiency.</p>
+<p>In the example above with the Normal distribution and the t2 distribution, the ratio f(x)/g(x) was maximized at x=1 (or x=-1) and so the value of c for that setup was 1.257, which implies an acceptance probability of about 0.8. Suppose however, that we wanted to simulate from a Uniform(0,1) density and we used an Exponential(1) as our candidate density. The plot of the two densities looks as follows.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=44983515">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -2294,19 +2311,79 @@ plt.tight_layout()</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=65ad12c8">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6aa1729">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Given what we know about the standard Normal density, most of the samples should be between -3 and +3, except perhaps in very large samples (this is a sample of size 200). From the picture, there are samples in the range of 4–6. In order to transform the t2 samples into N(0,1) samples, we will need to reject many of the samples out in the tail. On the other hand, there are two <em>few</em> samples in the range of [-2,2] and so we will have to disproportionaly accept samples in that range until it represents the proper N(0,1) density.</p>
-<p>Before we move on, it’s worth noting that the rejection sampling method requires that we can <em>evaluate</em> the target density f. That is how we compute the rejection/acceptance ratio in Step 2. In most cases, this will not be a problem.</p>
-<h3 id="properties-of-rejection-sampling">Properties of Rejection Sampling<a class="anchor-link" href="#properties-of-rejection-sampling">¶</a></h3><p>One property of the rejection sampling algorithm is that the number of draws we need to take from the candidate density g before we accept a candidate is a geometric random variable with success probability 1/c. We can think of the decision to accept or reject a candidate as a sequence of iid coin flips that has a specific probability of coming up “heads” (i.e. being accepted). That probability is 1/c and we can calculate that as follows.</p>
+<p>Here, the ratio of f(x)/g(x) is maximized at x=1 and so the value of c is 2.718 which implies an acceptance probability of about 0.37. While running the rejection sampling algorithm in this way to produce Uniform random variables will still work, it will be very inefficient.</p>
+<p>We can now show that the distribution of the accepted values from the rejection sampling algorithm above follows the target density f. We can do this by calculating the <em>distribution function</em> of the accepted values and show that this is equal to $F(t) = \int_{-\infty}^t f(x)\,dx$.</p>
+$$\begin{eqnarray*}
+\mathbb{P}(X\leq t\mid X~\text{accepted})
+&amp; = &amp;
+\frac{\mathbb{P}(X\leq t, X~\text{accepted})}{\mathbb{P}(X~\text{accepted})}\\
+&amp; = &amp;
+\frac{\mathbb{P}(X\leq t, X~\text{accepted})}{1/c}\\
+&amp; = &amp;
+c\,
+\mathbb{E}_g
+\mathbb{E}\left[
+\left.\mathbf{1}\{x\leq t\}\mathbf{1}\left\{U\leq\frac{f(x)}{c\,g(x)}\right\}\right| X = x
+\right]\\
+&amp; = &amp;
+c\,\mathbb{E}_g\left[\mathbf{1}\{X\leq t\}\frac{f(X)}{c\,g(X)}\right]\\
+&amp; = &amp;
+\int_{-\infty}^t f(x)\,dx\\
+&amp; = &amp; F(t)
+\end{eqnarray*}
+$$<p>This shows that the distribution function of the candidate values, given that they are accepted, is equal to the distribution function corresponding to the target density.</p>
+<p>A few further notes:</p>
+<ol>
+<li>We only need to know f and g up to a constant of proportionality. In many applications we will not know the normalizing constant for these densities, but we do not need them. That is, if $f(x) = k_1 f^\star(x)$ and $g(x) = k_2 g^\star(x)$, we can proceed with the algorithm using $f^\star$ and $g^\star$ even if we do not know the values of k1 and k2.</li>
+<li>Any number $c' \geq c$ will work in the rejection sampling algorithm, but the algorithm will be less efficient.</li>
+<li>Throughout the algorithm, operations can (and should!) be done on a log scale.</li>
+<li>The higher the dimension of f and g, the less efficient the rejection sampling algorithm will be.</li>
+<li>Whether $c=\infty$ or not depends on the tail behavior of the densities f and g. If $g(x)\downarrow 0$ faster than $f(x)\downarrow 0$ as $x\rightarrow\infty$, then $f(x)/g(x) \uparrow \infty$.</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=7d65fe98">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="empirical-supremum-rejection-sampling">Empirical Supremum Rejection Sampling<a class="anchor-link" href="#empirical-supremum-rejection-sampling">¶</a></h3><p>What if we cannot calculate $c = \sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}$ or are simply too lazy to do so? Fear not, because it turns out we almost never have to do so. A slight modification of the standard rejection sampling algorithm will allow us to <em>estimate</em> c while also sampling from the target density f. The tradeoff (there is always a tradeoff!) is that we must make a more stringent assumption about c, mainly that it is achievable. That is, there exists some value $x_c \in \mathcal{X}_f$ such that $f(x_c)/g(x_c)$ is <em>equal</em> to $\sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}$. The modified algorithm is the empirical supremum rejection sampling algorithm of Caffo, Booth, and Davison.</p>
+<p>First we must choose some starting value of $c$, call it $\hat{c}$, such that $\hat{c} &gt; 1$. The algorithm goes as follows.</p>
+<ol>
+<li>Draw $U\sim\text{Unif}(0,1)$</li>
+<li>Draw $X\sim g$, the candidate density</li>
+<li>Accept $X$ if $U \leq f(X)/(\hat{c}\, g(X))$, otherwise reject $X$</li>
+<li>Let $\hat{c}^\star = \max\{\hat{c},\, f(X)/g(X)\}$</li>
+<li>Update $\hat{c} = \hat{c}^\star$</li>
+<li>Goto Step 1</li>
+</ol>
+<p>From the algorithm we can see that at each iteration, we get more information about the ratio $f(X)/g(X)$ and can update our estimate of $c$ accordingly.</p>
+<p>One way to think of this algorithm is to conceptualize a separate sequence $\tilde{Y}_i$, which is $0$ or $1$ depending on whether $X_i$ should be rejected ($0$) or accepted ($1$). This sequence $\tilde{Y}_i$ is the accept/reject determination sequence. Under the standard rejection sampling algorithm, the sequence $\tilde{Y}_i$ is generated using the true value of $c$. Under the empirical supremum rejection sampling (ESUP) scheme, we generate a slightly different sequence $Y_i$ using our continuously updated value of $\hat{c}$.</p>
+<p>If we drew values $X_1, X_2, X_3, X_4, X_5, X_6,\dots$ from the candidate density $g$, then we could visualize the acceptance/rejection process as it might occur using the true value of $c$ and our estimate $\hat{c}$.</p>
+<p>Following the diagram above, we can see that using the estimate $\hat{c}$, there are two instances where we accept a value when we should have rejected it ($X_1$ and $X_4$). In every other instance in the sequence, the value of $Y_i$ was equal to $\tilde{Y}_i$. The theory behind the ESUP algorithm is that eventually, the sequence $Y_i$ becomes identical to the sequence $\tilde{Y}_i$ and therefore we will accept/reject candidates in the same manner as we would have if we had used the true $c$.</p>
+<p>If $f$ and $g$ are discrete distributions, then the proof of the ESUP algorithm is fairly straightforward. Specifically, Caffo, Booth, and Davison showed that $\mathbb{P}(Y_i\neq\tilde{Y}_i \text{ infinitely often})=0$. Recall that by assumption, there exists some $x_c\in\mathcal{X}_f$ such that $c = f(x_c)/g(x_c)$. Therefore, as we independently sample candidates from $g$, at some point, we will sample the value $x_c$, in which case we will achieve the value $c$. Once that happens, we are then using the standard rejection sampling algorithm and our estimate $\hat{c}$ never changes.</p>
+<p>Let $\gamma = \min_i\{x_i = x_c\}$, where $x_i \sim g$. So $\gamma$ is the first time that we see the value $x_c$ as we are sampling candidates $x_i$ from $g$. The probability that we sample $x_c$ is $g(x_c)$ (recall that $g$ is assumed to be discrete here) and so $\gamma$ has a Geometric distribution with success probability $g(x_c)$. Once we observe $x_c$, the ESUP algorithm and the standard rejection sampling algorithms converge and are identical.</p>
+<p>From here, we can use the coupling inequality, which tells us that
+$\mathbb{P}(Y_i\neq\tilde{Y}_i) \leq \mathbb{P}(\gamma \geq i)$.
+Given that $\gamma \sim \text{Geometric}(g(x_c))$, we know that
+$$P(\gamma \geq i) = (1 - g(x_c))^{i-1}.$$</p>
+<p>This then implies that
+$$\sum_{i=1}^\infty \mathbb{P}(Y_i\ne\tilde{Y}_i) &lt; \infty$$
+which, by the <a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Cantelli_lemma">Borel-Cantelli lemma</a>, implies that</p>
 $$
-\mathbb{P}(X \text{ accepted})=\mathbb{P}\left(U\leq\frac{f(X)}{c\,g(X)}\right)=\int\mathbb{P}\left(U\leq\frac{f(x)}{c\,g(x)}\mid X=x\right)g(x)\,dx=\int\frac{f(x)}{c\,g(x)}g(x)\,dx=\frac{1}{c}
-$$<p>This property of rejection sampling has implications for how we choose the candidate density g. In theory, any density can be chosen as the candidate as long as its support includes the support of f. However, in practice we will want to choose g so that it matches f as closely as possible. As a rule of thumb, candidates g that match f closely will have smaller values of c and thus will accept candidates with higher probability. We want to avoid large values of c because large values of c lead to an algorithm that rejects a lot of candidates and has lower efficiency.</p>
-<p>In the example above with the Normal distribution and the t2 distribution, the ratio f(x)/g(x) was maximized at x=1 (or x=-1) and so the value of c for that setup was 1.257, which implies an acceptance probability of about 0.8. Suppose however, that we wanted to simulate from a Uniform(0,1) density and we used an Exponential(1) as our candidate density. The plot of the two densities looks as follows.</p>
+\mathbb{P}(Y_i\neq\tilde{Y}_i \text{ infinitely often})=0
+$$<p>Therefore, eventually the sequences $Y_i$ and $\tilde{Y}_i$ must converge and at that point the ESUP algorithm will be identical to the rejection sampling algorithm.</p>
+<p>In practice, we will not know exactly when the ESUP algorithm has converged to the standard rejection sampling algorithm. However, Caffo, Booth, and Davison report that the convergence is generally fast. Therefore, a reasonable approach might be to discard the first several accepted values (e.g. a "burn in") and then use the remaining values.</p>
+<p>We can see how quickly ESUP converges in a simple example where the target density is the standard Normal and the candidate density is the $t_2$ distribution. Here we simulate 500 draws and start with a value $\hat{c}=1.0001$. Note that in the code below, all of the computations are done on the log scale for the sake of numerical stability.</p>
 </div>
 </div>
 </div>
@@ -2367,6 +2444,17 @@ for i in range(N):
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=764acd6f">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>Now we can plot $\log_{10}(|\hat{c}-c|)$ for each iteration to see how the magnitude of the error changes with each iteration.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=03b488e4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
@@ -2419,65 +2507,13 @@ plt.tight_layout()</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=d6aa1729">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=e0e2fb39">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Here, the ratio of f(x)/g(x) is maximized at x=1 and so the value of c is 2.718 which implies an acceptance probablity of about 0.37. While running the rejection sampling algorithm in this way to produce Uniform random variables will still work, it will be very inefficient.</p>
-<p>We can now show that the distribution of the accepted values from the rejection sampling algorithm above follows the target density f. We can do this by calculating the <em>distribution function</em> of the accepted values and show that this is equal to $F(t) = \int_{-\infty}^t f(x)\,dx$.</p>
-$$\begin{eqnarray*}
-\mathbb{P}(X\leq t\mid X~\text{accepted})
-&amp; = &amp;
-\frac{\mathbb{P}(X\leq t, X~\text{accepted})}{\mathbb{P}(X~\text{accepted})}\\
-&amp; = &amp;
-\frac{\mathbb{P}(X\leq t, X~\text{accepted})}{1/c}\\
-&amp; = &amp;
-c\,
-\mathbb{E}_g
-\mathbb{E}\left[
-\left.\mathbf{1}\{x\leq t\}\mathbf{1}\left\{U\leq\frac{f(x)}{c\,g(x)}\right\}\right| X = x
-\right]\\
-&amp; = &amp;
-c\,\mathbb{E}_g\left[\mathbf{1}\{X\leq t\}\frac{f(X)}{c\,g(X)}\right]\\
-&amp; = &amp;
-\int_{-\infty}^t f(x)\,dx\\
-&amp; = &amp; F(t)
-\end{eqnarray*}
-
-$$<p>This shows that the distribution function of the candidate values, given that they are accepted, is equal to the distribution function corresponding to the target density.</p>
-<p>A few further notes:</p>
-<ol>
-<li>We only need to know f and g up to a constant of proportionality. In many applications we will not know the normalizing constant for these densities, but we do not need them. That is, if $f(x) = k_1 f^\star(x)$ and $g(x) = k_2 g^\star(x)$, we can proceed with the algorithm using $f^\star$ and $g^\star$ even if we do not know the values of k1 and k2.</li>
-<li>Any number $c' \geq c$ will work in the rejection sampling algorithm, but the algorithm will be less efficient.</li>
-<li>Throughout the algorithm, operations can (and should!) be done on a log scale.</li>
-<li>The higher the dimension of f and g, the less efficient the rejection sampling algorithm will be.</li>
-<li>Whether $c=\infty$ or not depends on the tail behavior of the the densities f and g. If $g(x)\downarrow 0$ faster than $f(x)\downarrow 0$ as $x\rightarrow\infty$, then $f(x)/g(x) \uparrow \infty$.</li>
-</ol>
-<h3 id="empirical-supremum-rejection-sampling">Empirical Supremum Rejection Sampling<a class="anchor-link" href="#empirical-supremum-rejection-sampling">¶</a></h3><p>What if we cannot calculate $c = \sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}$ or are simply too lazy to do so? Fear not, because it turns out we almost never have to do so. A slight modification of the standard rejection sampling algorithm will allow us to <em>estimate</em> c while also sampling from the target density f. The tradeoff (there is always a tradeoff!) is that we must make a more stringent assumption about c, mainly that it is achievable. That is, there exists some value $x_c \in \mathcal{X}_f$ such that $f(x_c)/g(x_c)$ is <em>equal</em> to $\sup_{x\in\mathcal{X}_f}\frac{f(x)}{g(x)}$. The modified algorithm is the empirical supremum rejection sampling algorithm of Caffo, Booth, and Davison.</p>
-<p>First we must choose some starting value of $c$, call it $\hat{c}$, such that $\hat{c} &gt; 1$. The algorithm goes as follows.</p>
-<ol>
-<li>Draw $U\sim\text{Unif}(0,1)$</li>
-<li>Draw $X\sim g$, the candidate density</li>
-<li>Accept $X$ if $U \leq f(X)/(\hat{c}\, g(X))$, otherwise reject $X$</li>
-<li>Let $\hat{c}^\star = \max\{\hat{c},\, f(X)/g(X)\}$</li>
-<li>Update $\hat{c} = \hat{c}^\star$</li>
-<li>Goto Step 1</li>
-</ol>
-<p>From the algorithm we can see that at each iteration, we get more information about the ratio $f(X)/g(X)$ and can update our estimate of $c$ accordingly.</p>
-<p>Specifically, Caffo, Booth, and Davison showed that $\mathbb{P}(Y_i\neq\tilde{Y}_i \text{ infinitely often})=0$. Let $\gamma = \min_i\{x_i = x_c\}$, where $x_i \sim g$. So $\gamma$ is the first time that we see the value $x_c$ as we are sampling candidates $x_i$ from $g$. The probability that we sample $x_c$ is $g(x_c)$ (recall that $g$ is assumed to be discrete here) and so $\gamma$ has a Geometric distribution with success probability $g(x_c)$. Once we observe $x_c$, the ESUP algorithm and the standard rejection sampling algorithms converge and are identical.</p>
-<p>From here, we can use the coupling inequality, which tells us that
-$\mathbb{P}(Y_i\neq\tilde{Y}_i) \leq \mathbb{P}(\gamma \geq i)$.
-Given that $\gamma \sim \text{Geometric}(g(x_c))$, we know that
-$$P(\gamma \geq i) = (1 - g(x_c))^{i-1}.$$</p>
-<p>This then implies that
-$$\sum_{i=1}^\infty \mathbb{P}(Y_i\ne\tilde{Y}_i) &lt; \infty$$
-which, by the <a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Cantelli_lemma">Borel-Cantelli lemma</a>, implies that</p>
-$$
-\mathbb{P}(Y_i\neq\tilde{Y}_i \text{ infinitely often})=0
-$$<p>Therefore, eventually the sequences $Y_i$ and $\tilde{Y}_i$ must converge and at that point the ESUP algorithm will be identical to the rejection sampling algorithm.</p>
-<p>In practice, we will not know exactly when the ESUP algorithm has converged to the standard rejection sampling algorithm. However, Caffo, Booth, and Davison report that the convergence is generally fast. Therefore, a reasonable approach might be to discard the first several accepted values (e.g. a "burn in") and then use the remaining values.</p>
+<p>We can see that by iteration 40 or so, $\hat{c}$ and $c$ differ only in the 5th decimal place and beyond. By the 380th iteration, they differ only beyond the 6th decimal place.</p>
 </div>
 </div>
 </div>
@@ -2524,7 +2560,7 @@ $$<p>Therefore, eventually the sequences $Y_i$ and $\tilde{Y}_i$ must converge a
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ch06_random_number_generation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6.1 Random Number Generation">
+          <a href="../ch06_non_uniform_random_numbers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6.2 Non-Uniform Random Numbers">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -2534,20 +2570,20 @@ $$<p>Therefore, eventually the sequences $Y_i$ and $\tilde{Y}_i$ must converge a
                 Previous
               </span>
               <div class="md-ellipsis">
-                6.1 Random Number Generation
+                6.2 Non-Uniform Random Numbers
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ch06_importance_sampling/" class="md-footer__link md-footer__link--next" aria-label="Next: 6.3 Importance Sampling">
+          <a href="../ch06_importance_sampling/" class="md-footer__link md-footer__link--next" aria-label="Next: 6.4 Importance Sampling">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                6.3 Importance Sampling
+                6.4 Importance Sampling
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2591,7 +2627,7 @@ $$<p>Therefore, eventually the sequences $Y_i$ and $\tilde{Y}_i$ must converge a
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

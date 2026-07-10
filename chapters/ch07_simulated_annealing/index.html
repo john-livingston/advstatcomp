@@ -1119,34 +1119,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1250,6 +1222,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1257,7 +1257,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1285,7 +1285,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2068,22 +2068,32 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 id="simulated-annealing">Simulated Annealing<a class="anchor-link" href="#simulated-annealing">¶</a></h2><p>Simulated annealing is a technique for minimizing functions that makes use of the ideas from Markov chain Monte Carlo samplers, which is why it is in this section of the book. It is a particularly useful method for functions that are very misbehaved and wiggly; the kinds of functions that Newton-style optimizers tend to be bad at minimizing.</p>
 <p>Suppose we want to find the global minimum of a function $h(\theta)$, where $\theta$ is a vector of parameters in a space $S$. Ideally, we would simulate a Markov chain whose target density $\pi(\theta)$ was a point mass on the global minimum. This would be great if we could do it! But then we wouldn't have a problem. The idea with simulated annealing is that we build successive approximations to $\pi(\theta)$ until we have an approximation that is very close to the target density.</p>
-<p>Let</p>
-$$
-S^\star = \{\theta\in S: h(\theta) = \min_\theta h(\theta)\}
-$$<p>. Then define $\pi(\theta)\propto 1$ for all $\theta\in S^\star$ and $\pi(\theta)=0$ for all $\theta\notin S^\star$. In other words, $\pi(\theta)$ is the uniform distribution over all the global minimizers. The ultimate goal is to find some way to sample from $\pi(\theta)$.</p>
+<p>Let $S^\star = \{\theta\in S: h(\theta) = \min_\theta h(\theta)\}$. Then define $\pi(\theta)\propto 1$ for all $\theta\in S^\star$ and $\pi(\theta)=0$ for all $\theta\notin S^\star$. In other words, $\pi(\theta)$ is the uniform distribution over all the global minimizers. The ultimate goal is to find some way to sample from $\pi(\theta)$.</p>
 <p>We will begin by building an approximate density called $\pi_T(\theta)$ where</p>
-<p>and where $T$ is called the "temperature". This density as two key properties:</p>
-<ul>
+$$\pi_T(\theta) \propto \exp(-h(\theta)/T).$$<p>and where $T$ is called the "temperature". This density has two key properties:</p>
+<ol>
 <li>As $T\rightarrow\infty$ it $\pi_T(\theta)$ approaches the uniform density;</li>
-</ul>
+<li>As $T\downarrow 0$, $\pi_T(\theta)\rightarrow\pi(\theta)$.</li>
+</ol>
 <p>The aim is then to draw many samples from $\pi_T(\theta)$, initially with a large value of $T$, and to lower $T$ towards $0$ slowly. As we lower $T$, the density $\pi_T(\theta)$ will become more and more concentrated around the minima of $h(\theta)$.</p>
-<p>Given that $\pi_T(\theta)\rightarrow\pi(\theta)$ as $T\downarrow 0$, why not just start with $T$ really small? The problem is that if $T$ is small from the start, then the sampler will quickly get "stuck" in a whatever local model is near our initial value. Once there, it will not be able to jump out and go to an other mode. So the general strategy is to start with a large $T$ so that the sample space can be adequately explored and so we don't get stuck in a local minimum. Then, as we lower the temperature, we can be sure that we have explored as much of the space as feasible.</p>
+<p>Given that $\pi_T(\theta)\rightarrow\pi(\theta)$ as $T\downarrow 0$, why not just start with $T$ really small? The problem is that if $T$ is small from the start, then the sampler will quickly get "stuck" in whatever local mode is near our initial value. Once there, it will not be able to jump out and go to an other mode. So the general strategy is to start with a large $T$ so that the sample space can be adequately explored and so we don't get stuck in a local minimum. Then, as we lower the temperature, we can be sure that we have explored as much of the space as feasible.</p>
 <p>The sampling procedure is then to first choose a symmetric proposal density $q(\cdot\mid\theta)$. Then, if we are at iteration $n$ with state $\theta_n$,</p>
-<ul>
-<li>Simulate $u\sim\text{Unif}(0,1)$. If $u\leq\alpha(y\mid x)$ then accept $y$ as the next state, otherwise stay at $x$.</li>
-</ul>
-<p>Note that if $h(\theta^\star)\leq h(\theta_n)$, then we always accept the proposal, so we always go "downhill". If $h(\theta^\star) &gt; h(\theta_n)$ then we accept $\theta^\star$ with some probability $ 0$. Because of the logarithm in the denominator, this cooling schedule is excruciatingly slow, making the simulated annealing algorithm a very slow algorithm to converge.</p>
+<ol>
+<li>Sample $\theta^\star\sim q(\theta\mid\theta_n)$.</li>
+<li>Sample $U\sim\text{Unif}(0,1)$.</li>
+<li>Compute</li>
+</ol>
+$$\begin{eqnarray*}
+\alpha(\theta^\star\mid\theta_n)
+&amp; = &amp;
+\min\left(\frac{\exp(-h(\theta^\star) / T)}{\exp(-h(\theta_n) / T)}, 1\right)\\
+&amp; = &amp;
+\min(\exp(-(h(\theta^\star)-h(\theta_n)) / T), 1)
+\end{eqnarray*}$$<ol start="4">
+<li>Accept $\theta^\star$ as the next state if $U\leq\alpha(\theta^\star\mid\theta_n)$.</li>
+<li>Decrease $T$.</li>
+</ol>
+<p>Note that if $h(\theta^\star)\leq h(\theta_n)$, then we always accept the proposal, so we always go "downhill". If $h(\theta^\star) &gt; h(\theta_n)$ then we accept $\theta^\star$ with some probability $&lt; 1$. So there is a chance that we go "uphill", which allows us to not get stuck in local minima. As $T$ approaches $0$, it becomes much less likely that we will accept an uphill proposal.</p>
 <p>If we have that</p>
 <ol>
 <li>The temperature is decreasing, so that $T_{n+1} &lt; T_n$ for each iteration $n$;</li>
@@ -2091,7 +2101,7 @@ $$<p>. Then define $\pi(\theta)\propto 1$ for all $\theta\in S^\star$ and $\pi(\
 <li>$T_n$ decreases according to an appropriate "cooling schedule";</li>
 </ol>
 <p>then $\|\pi_{T_n}-\pi\|\longrightarrow 0$.</p>
-<p>For the theory to work and for us to be guaranteed to find the global minimizer(s), we need to have a "cooling schedule" for T that is along the lines of</p>
+<p>For the theory to work and for us to be guaranteed to find the global minimizer(s), we need to have a "cooling schedule" for $T$ that is along the lines of</p>
 $$T_n = \frac{a}{\log(n+b)}$$<p>for some $a, b &gt; 0$. Because of the logarithm in the denominator, this cooling schedule is excruciatingly slow, making the simulated annealing algorithm a very slow algorithm to converge.</p>
 </div>
 </div>
@@ -2327,8 +2337,8 @@ plt.tight_layout()</div>
 <span class="n">N</span> <span class="o">=</span> <span class="mi">20_000</span>
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
 
-<span class="c1"># Cooling schedule: T_n = a / log(n + b), geometric approximation used here</span>
-<span class="c1"># for speed; classic logarithmic schedule is slow but theoretically optimal</span>
+<span class="c1"># Cooling schedule: T_n = a / log(n + b); this logarithmic schedule is slow</span>
+<span class="c1"># but theoretically optimal for guaranteed convergence to the global minimum</span>
 <span class="n">a_cool</span> <span class="o">=</span> <span class="mf">5.0</span>
 <span class="n">T_sched</span> <span class="o">=</span> <span class="n">a_cool</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">N</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
 
@@ -2347,8 +2357,8 @@ plt.tight_layout()</div>
 N = 20_000
 rng = np.random.default_rng(2024)
 
-# Cooling schedule: T_n = a / log(n + b), geometric approximation used here
-# for speed; classic logarithmic schedule is slow but theoretically optimal
+# Cooling schedule: T_n = a / log(n + b); this logarithmic schedule is slow
+# but theoretically optimal for guaranteed convergence to the global minimum
 a_cool = 5.0
 T_sched = a_cool / np.log(np.arange(2, N + 2))
 
@@ -2562,7 +2572,7 @@ plt.tight_layout()</div>
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

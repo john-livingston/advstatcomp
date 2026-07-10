@@ -16,7 +16,7 @@
         <link rel="prev" href="../ch06_independent_monte_carlo/">
       
       
-        <link rel="next" href="../ch06_rejection_sampling/">
+        <link rel="next" href="../ch06_non_uniform_random_numbers/">
       
       
         
@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1284,18 +1256,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-number-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Random Number Generation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Random Number Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#pseudo-random-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1303,11 +1263,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1327,6 +1282,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1334,7 +1317,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1362,7 +1345,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1618,18 +1601,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-number-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Random Number Generation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Random Number Generation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#pseudo-random-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1637,11 +1608,6 @@
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2110,7 +2076,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p>Nevertheless, there are two issues that are worth considering here:</p>
 <ol>
 <li>It is useful to know a little about what is going on under the hood of these random number generators. How exactly is the sequence of numbers created?</li>
-<li>Built-in functions in packages like NumPy or SciPy are only useful for well-known or well-characterized distributions. However, wil many simulation-based techniques, we will want to generate random numbers from distributions that we have likely never seen before and for which there will not be any built-in function.</li>
+<li>Built-in functions in packages like NumPy or SciPy are only useful for well-known or well-characterized distributions. However, with many simulation-based techniques, we will want to generate random numbers from distributions that we have likely never seen before and for which there will not be any built-in function.</li>
 </ol>
 </div>
 </div>
@@ -2122,14 +2088,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="random-number-generation">Random Number Generation<a class="anchor-link" href="#random-number-generation">¶</a></h2><p>In order to use the simulation-based techniques described in this book, we will need to be able to generate sequences of random numbers. Most of the time in the software we are using, there is a function that will do this for us. For example, in Python, if we want to generate uniformly distributed random numbers over a fixed interval, we can use <code>np.random.uniform()</code>.</p>
-<p>Nevertheless, there are two issues that are worth considering here:</p>
-<ol>
-<li>It is useful to know a little about what is going on under the hood of these random number generators. How exactly is the sequence of numbers created?</li>
-<li>Built-in functions in packages like NumPy or SciPy are only useful for well-known or well-characterized distributions. However, wil many simulation-based techniques, we will want to generate random numbers from distributions that we have likely never seen before and for which there will not be any built-in function.</li>
-</ol>
 <h3 id="pseudo-random-numbers">Pseudo-random Numbers<a class="anchor-link" href="#pseudo-random-numbers">¶</a></h3><p>The truth is that Python, along with most other analytics packages, does not generate genuine random numbers. Python generates <em>pseudo-random numbers</em> that appear to be random but are actually generated in a deterministic way. This approach sounds worse, but it’s actually better for two reasons. First, generating genuine random numbers can be slow and often will depend on some outside source of entropy/randomness. Second, genuine random numbers are not reproducible, so if you wanted to re-create some results based on simulations, you would not ever be able to do so.</p>
-<p><a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator">Pseudo-random number generators</a> (PRNGs have a long history that we will not cover here. One useful thing to know is that this is tricky area and it is not simple to wander in and start developing your own PRNGs. It is useful to know how the systems work, but after that it’s best to leave the specifics to the experts.</p>
+<p><a href="https://en.wikipedia.org/wiki/Pseudorandom_number_generator">Pseudo-random number generators</a> (PRNGs) have a long history that we will not cover here. One useful thing to know is that this is a tricky area and it is not simple to wander in and start developing your own PRNGs. It is useful to know how the systems work, but after that it’s best to leave the specifics to the experts.</p>
 <p>The most commonly used class of PRNGs in scientific applications is the <em>linear congruential generator</em>. The basic idea behind an LCG is that we have a starting <em>seed</em>, and then from there we generate pseudo-random numbers via a recurrence relation. Most LCGs have the form
 Xn+1=(aXn+c) mod m
 where a is called the <em>multiplier</em>, c is the <em>increment</em>, and m is the <em>modulus</em>. For n=0, the value X0 is the seed. Modular arithmetic is needed in order to prevent the sequence from going off to infinity. For most generators, the values X0,X1,… are integers. However, we could for example generate Uniform(0, 1) variates by taking Un=Xn/m.</p>
@@ -2203,13 +2163,13 @@ where a is called the <em>multiplier</em>, c is the <em>increment</em>, and m is
         
         
           
-          <a href="../ch06_rejection_sampling/" class="md-footer__link md-footer__link--next" aria-label="Next: 6.2 Rejection Sampling">
+          <a href="../ch06_non_uniform_random_numbers/" class="md-footer__link md-footer__link--next" aria-label="Next: 6.2 Non-Uniform Random Numbers">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                6.2 Rejection Sampling
+                6.2 Non-Uniform Random Numbers
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2253,7 +2213,7 @@ where a is called the <em>multiplier</em>, c is the <em>increment</em>, and m is
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

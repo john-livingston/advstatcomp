@@ -1214,34 +1214,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1345,6 +1317,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1352,7 +1352,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1380,7 +1380,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2152,18 +2152,18 @@ $$
 f(y\mid\theta)=\lambda\varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2)
 $$<p>where $\varphi(y\mid\mu,\sigma^2)$ is the Normal density with mean $\mu $ and variance $\sigma^2 $. The unknown parameter vector is $\theta = (\mu_1,\mu_2,\sigma_1^2,\sigma_2^2, \lambda)$ and the log-likelihood</p>
 $$
-\log f(y_1,\dots,y_n\mid\theta)=\log \sum_{i=1}^n \lambda\varphi(y_i\mid\mu_1,\sigma_1) + (1-\lambda)\varphi(y_i\mid\mu_2,\sigma_2)
-$$<p>This problem is reasonably simple enough that it could be solved using a direct optimization method like Newton’s method, but the EM algorithm provides a nice stable approach to finding the optimum. The art of applying the EM algorithm is coming up with a useful complete data model. In this example, the approach is to hypothesize that each observation comes from one of two populations parameterized $(\mu_1, \sigma_1^2)$ $(\mu_2,\sigma^2_2)$, respectively. The “missing data” in this case are the labels identifying which observation came from which population. Therefore, we assert that there are missing data $ z_1,\dots,z_n $ such that $ z_i\sim\text{Bernoulli}(\lambda).$ When $ z_i=1 $, $ y_i $ comes from population 1 and when $ z_i=0 $, $ y_i $ comes from population 2. The idea is then that the data are sampled in two stages. First we sample $ z_i $ to see which population the data come from and then given $ z_i $, we can sample $ y_i $ from the appropriate Normal distribution. The joint density of the observed and missing data, i.e. the complete data density, is then</p>
+\log f(y_1,\dots,y_n\mid\theta)=\sum_{i=1}^n \log\left[\lambda\varphi(y_i\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y_i\mid\mu_2,\sigma_2^2)\right]
+$$<p>This problem is reasonably simple enough that it could be solved using a direct optimization method like Newton’s method, but the EM algorithm provides a nice stable approach to finding the optimum. The art of applying the EM algorithm is coming up with a useful complete data model. In this example, the approach is to hypothesize that each observation comes from one of two populations parameterized by $(\mu_1, \sigma_1^2)$ and $(\mu_2,\sigma^2_2)$, respectively. The “missing data” in this case are the labels identifying which observation came from which population. Therefore, we assert that there are missing data $ z_1,\dots,z_n $ such that $ z_i\sim\text{Bernoulli}(\lambda).$ When $ z_i=1 $, $ y_i $ comes from population 1 and when $ z_i=0 $, $ y_i $ comes from population 2. The idea is then that the data are sampled in two stages. First we sample $ z_i $ to see which population the data come from and then given $ z_i $, we can sample $ y_i $ from the appropriate Normal distribution. The joint density of the observed and missing data, i.e. the complete data density, is then</p>
 $$
 g(y,z\mid\theta)=\varphi(y\mid\mu_1,\sigma_1^2)^{z}\varphi(y\mid\mu_2,\sigma^2_2)^{1-z}\lambda^z(1-\lambda)^{1-z}
-$$<p>It’s easy to show that 1 $\sum_{z=0}^1 g(y, z\mid\theta) = f(y\mid\theta)$ so that when we “integrate” out the missing data, we get the observed data density. The complete data log-likelihood is then</p>
+$$<p>It’s easy to show that $\sum_{z=0}^1 g(y, z\mid\theta) = f(y\mid\theta)$ so that when we “integrate” out the missing data, we get the observed data density. The complete data log-likelihood is then</p>
 $$
 \log g(y, z\mid\theta) =\sum_{i=1}^nz_i\log\varphi(y_i\mid\mu_1,\sigma^2_1) +(1-z_i)\log\varphi(y_i\mid\mu_2,\sigma^2_2) +z_i\log\lambda +(1-z_i)\log(1-\lambda)
-$$<p>Note that this function is nice and linear in the missing data $ z_i $. To evaluate $ Q(\theta\mid\theta_0)$ function we need to take the expectation of the above expression with respect to the missing data density $ h(z\mid y, \theta)$. But what is that? The missing data density will be proportional to the complete data density, so that</p>
-<p>$\begin{eqnarray*}h(z\mid y,\theta)&amp; \propto &amp;\varphi(y\mid\mu_1,\sigma_1^2)^z\varphi(y\mid\mu_2,\sigma_2^2)^{1-z}\lambda^z(1-\lambda)^{1-z}\\&amp; = &amp;(\lambda \varphi(y\mid\mu_1,\sigma_1^2))^z((1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2))^{1-z}\\&amp; = &amp;\text{Bernoulli}\left(\frac{\lambda \varphi(y\mid\mu_1,\sigma_1^2)}{\lambda \varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2)}\right)\end{eqnarray*}$ From this, what we need to compute $ Q()$ function is $\pi_i = \mathbb{E}[z_i\mid y_i, \theta_0]$. Given that, wen then compute $ Q()$ function in the E-step.</p>
-<p>$\begin{eqnarray*}Q(\theta\mid\theta_0)&amp; = &amp;\mathbb{E}\left[\sum_{i=1}^nz_i\log\varphi(y\mid\mu_1,\sigma_1^2)+ (1-z_i)\log\varphi(y\mid\mu_2,\sigma_2^2)+ z_i\log\lambda + (1-z_i)\log(1-\lambda)\right]\\&amp; = &amp;\sum_{i=1}^n\pi_i\log\varphi(y\mid\mu_1,\sigma_1^2)+ (1-\pi_i)\varphi(y\mid\mu_2,\sigma_2^2)+ \pi_i\log\lambda+ (1-\pi_i)\log(1-\lambda)\\&amp; = &amp;\sum_{i=1}^n\pi_i\left[-\frac{1}{2}\log 2\pi\sigma_1^2-\frac{1}{2\sigma_1^2}(y_i-\mu_1)^2\right]+ (1-\pi_i)\left[-\frac{1}{2}\log 2\pi\sigma_2^2-\frac{1}{2\sigma_2^2}(y_i-\mu_2)^2\right]\\&amp; &amp; + \pi_i\log\lambda + (1-\pi_i)\log(1-\lambda)\end{eqnarray*}$ In order to compute $\pi_i $, we will need to use the current estimates of $\mu_1, \sigma_1^2, \mu_2 $, and $\sigma_2^2 $(in addition to the data $ y_1,\dots, y_n $). We can then compute the gradient $ Q $ in order maximize it for the current iteration. After doing that we get the next values, which</p>
-<p>$\begin{eqnarray*}\hat{\mu}_1 &amp; = &amp; \frac{\sum \pi_i y_i}{\sum \pi_i}\\\hat{\mu}_2 &amp; = &amp; \frac{\sum (1-\pi_i) y_i}{\sum 1-\pi_i}\\\hat{\sigma}_1^2 &amp; = &amp; \frac{\sum\pi_i(y_i-\mu_1)^2}{\sum\pi_i}\\\hat{\sigma}_2^2 &amp; = &amp; \frac{\sum(1-\pi_i)(y_i-\mu_2)^2}{\sum(1-\pi_i)}\\\hat{\lambda} &amp; = &amp; \frac{1}{n}\sum\pi_i\end{eqnarray*}$ Once we have these updated estimates, we can go back to the E-step and recompute $ Q $ function.</p>
-<h3 id="422-censored-exponential-data">4.2.2 Censored Exponential Data<a class="anchor-link" href="#422-censored-exponential-data">¶</a></h3><p>Suppose we have survival times $ x_1,\dots,x_n\sim\text{Exponential}(\lambda)$. However, we do not observe these survival times because some of them are censored at times $ c_1,\dots,c_n $. Because the censoring times are known, what we actually observe are the data $(\min(y_1, c_1), \delta_1),\dots,(\min(y_n,c_n),\delta_n)$, where $\delta=1 $ if $ y_i\leq c_i $ and $\delta=0 $ $ y_i $ is censored at time $ c_i $. The complete data density is simply the exponential distribution with rate parameter $\lambda $,</p>
+$$<p>Note that this function is nice and linear in the missing data $ z_i $. To evaluate the $Q(\theta\mid\theta_0)$ function we need to take the expectation of the above expression with respect to the missing data density $ h(z\mid y, \theta)$. But what is that? The missing data density will be proportional to the complete data density, so that</p>
+<p>$\begin{eqnarray*}h(z\mid y,\theta)&amp; \propto &amp;\varphi(y\mid\mu_1,\sigma_1^2)^z\varphi(y\mid\mu_2,\sigma_2^2)^{1-z}\lambda^z(1-\lambda)^{1-z}\\&amp; = &amp;(\lambda \varphi(y\mid\mu_1,\sigma_1^2))^z((1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2))^{1-z}\\&amp; = &amp;\text{Bernoulli}\left(\frac{\lambda \varphi(y\mid\mu_1,\sigma_1^2)}{\lambda \varphi(y\mid\mu_1,\sigma_1^2) + (1-\lambda)\varphi(y\mid\mu_2,\sigma_2^2)}\right)\end{eqnarray*}$ From this, what we need to compute the $Q()$ function is $\pi_i = \mathbb{E}[z_i\mid y_i, \theta_0]$. Given that, we then compute the $Q()$ function in the E-step.</p>
+<p>$\begin{eqnarray*}Q(\theta\mid\theta_0)&amp; = &amp;\mathbb{E}\left[\sum_{i=1}^nz_i\log\varphi(y\mid\mu_1,\sigma_1^2)+ (1-z_i)\log\varphi(y\mid\mu_2,\sigma_2^2)+ z_i\log\lambda + (1-z_i)\log(1-\lambda)\right]\\&amp; = &amp;\sum_{i=1}^n\pi_i\log\varphi(y\mid\mu_1,\sigma_1^2)+ (1-\pi_i)\varphi(y\mid\mu_2,\sigma_2^2)+ \pi_i\log\lambda+ (1-\pi_i)\log(1-\lambda)\\&amp; = &amp;\sum_{i=1}^n\pi_i\left[-\frac{1}{2}\log 2\pi\sigma_1^2-\frac{1}{2\sigma_1^2}(y_i-\mu_1)^2\right]+ (1-\pi_i)\left[-\frac{1}{2}\log 2\pi\sigma_2^2-\frac{1}{2\sigma_2^2}(y_i-\mu_2)^2\right]\\&amp; &amp; + \pi_i\log\lambda + (1-\pi_i)\log(1-\lambda)\end{eqnarray*}$ In order to compute $\pi_i $, we will need to use the current estimates of $\mu_1, \sigma_1^2, \mu_2 $, and $\sigma_2^2 $(in addition to the data $ y_1,\dots, y_n $). We can then compute the gradient of $Q$ in order to maximize it for the current iteration. After doing that we get the next values, which</p>
+<p>$\begin{eqnarray*}\hat{\mu}_1 &amp; = &amp; \frac{\sum \pi_i y_i}{\sum \pi_i}\\\hat{\mu}_2 &amp; = &amp; \frac{\sum (1-\pi_i) y_i}{\sum 1-\pi_i}\\\hat{\sigma}_1^2 &amp; = &amp; \frac{\sum\pi_i(y_i-\mu_1)^2}{\sum\pi_i}\\\hat{\sigma}_2^2 &amp; = &amp; \frac{\sum(1-\pi_i)(y_i-\mu_2)^2}{\sum(1-\pi_i)}\\\hat{\lambda} &amp; = &amp; \frac{1}{n}\sum\pi_i\end{eqnarray*}$ Once we have these updated estimates, we can go back to the E-step and recompute our $Q$ function.</p>
+<h3 id="422-censored-exponential-data">4.2.2 Censored Exponential Data<a class="anchor-link" href="#422-censored-exponential-data">¶</a></h3><p>Suppose we have survival times $ x_1,\dots,x_n\sim\text{Exponential}(\lambda)$. However, we do not observe these survival times because some of them are censored at times $ c_1,\dots,c_n $. Because the censoring times are known, what we actually observe are the data $(\min(y_1, c_1), \delta_1),\dots,(\min(y_n,c_n),\delta_n)$, where $\delta=1$ if $y_i\leq c_i$ and $\delta=0$ if $y_i$ is censored at time $c_i$. The complete data density is simply the exponential distribution with rate parameter $\lambda $,</p>
 $$
 g(x_1,\dots,x_n\mid\lambda)=\prod_{i=1}^n\frac{1}{\lambda}\exp(-x_i/\lambda)
 $$<p>To do the E-step, we need to compute</p>
@@ -2490,9 +2490,9 @@ plt.tight_layout()</div>
 
 <span class="c1"># Simulate censored exponential data</span>
 <span class="n">rng2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
-<span class="n">true_rate</span> <span class="o">=</span> <span class="mf">2.0</span>          <span class="c1"># true mean = 1/rate... using mean parameterisation</span>
+<span class="n">true_mean</span> <span class="o">=</span> <span class="mf">2.0</span>
 <span class="n">n_surv</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">x_true</span> <span class="o">=</span> <span class="n">rng2</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">true_rate</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_surv</span><span class="p">)</span>   <span class="c1"># true survival times</span>
+<span class="n">x_true</span> <span class="o">=</span> <span class="n">rng2</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_surv</span><span class="p">)</span>   <span class="c1"># true survival times</span>
 <span class="n">c</span> <span class="o">=</span> <span class="n">rng2</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">n_surv</span><span class="p">)</span>                   <span class="c1"># censoring times</span>
 <span class="n">y_surv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">x_true</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
 <span class="n">delta_surv</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_true</span> <span class="o">&lt;=</span> <span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
@@ -2501,13 +2501,13 @@ plt.tight_layout()</div>
 
 <span class="n">lam_hat</span><span class="p">,</span> <span class="n">lam_history</span> <span class="o">=</span> <span class="n">em_censored_exponential</span><span class="p">(</span><span class="n">y_surv</span><span class="p">,</span> <span class="n">delta_surv</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"EM estimate of mean:  </span><span class="si">{</span><span class="n">lam_hat</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True mean:            </span><span class="si">{</span><span class="n">true_rate</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"True mean:            </span><span class="si">{</span><span class="n">true_mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Naive mean (ignoring censoring): </span><span class="si">{</span><span class="n">y_surv</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Converged in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">lam_history</span><span class="p">)</span><span class="si">}</span><span class="s2"> iterations"</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lam_history</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'orange'</span><span class="p">],</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_rate</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'blue'</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'True mean = </span><span class="si">{</span><span class="n">true_rate</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">true_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">C</span><span class="p">[</span><span class="s1">'blue'</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">'--'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">'True mean = </span><span class="si">{</span><span class="n">true_mean</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">'EM Iteration'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">'Estimated Mean $\hat{\lambda}$'</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'EM for Censored Exponential: Parameter Convergence'</span><span class="p">)</span>
@@ -2541,9 +2541,9 @@ plt.tight_layout()</div>
 
 # Simulate censored exponential data
 rng2 = np.random.default_rng(99)
-true_rate = 2.0          # true mean = 1/rate... using mean parameterisation
+true_mean = 2.0
 n_surv = 200
-x_true = rng2.exponential(scale=true_rate, size=n_surv)   # true survival times
+x_true = rng2.exponential(scale=true_mean, size=n_surv)   # true survival times
 c = rng2.uniform(0.5, 4.0, size=n_surv)                   # censoring times
 y_surv = np.minimum(x_true, c)
 delta_surv = (x_true &lt;= c).astype(float)
@@ -2552,13 +2552,13 @@ print(f"Fraction censored: {1 - delta_surv.mean():.1%}")
 
 lam_hat, lam_history = em_censored_exponential(y_surv, delta_surv)
 print(f"EM estimate of mean:  {lam_hat:.4f}")
-print(f"True mean:            {true_rate:.4f}")
+print(f"True mean:            {true_mean:.4f}")
 print(f"Naive mean (ignoring censoring): {y_surv.mean():.4f}")
 print(f"Converged in {len(lam_history)} iterations")
 
 fig, ax = plt.subplots(figsize=(7, 4))
 ax.plot(lam_history, color=C['orange'], lw=2)
-ax.axhline(true_rate, color=C['blue'], ls='--', lw=1.5, label=f'True mean = {true_rate}')
+ax.axhline(true_mean, color=C['blue'], ls='--', lw=1.5, label=f'True mean = {true_mean}')
 ax.set_xlabel('EM Iteration')
 ax.set_ylabel(r'Estimated Mean $\hat{\lambda}$')
 ax.set_title('EM for Censored Exponential: Parameter Convergence')
@@ -2702,7 +2702,7 @@ Converged in 27 iterations
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

@@ -1121,34 +1121,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1252,6 +1224,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1259,7 +1259,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1287,7 +1287,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2255,23 +2255,26 @@ $$
 \end{eqnarray*}
 $$<p>Given our current state $x$, the random walk Metropolis-Hastings algorithm proceeds as follows:</p>
 <ol>
-<li>Simulate $\varepsilon\sim g$ and let $y=x+\varepsilon$.</li>
-<li>Compute</li>
+<li><p>Simulate $\varepsilon\sim g$ and let $y=x+\varepsilon$.</p>
+</li>
+<li><p>Compute</p>
+<p>$$\alpha(y\mid x)=\min\left\{\frac{\pi(y)}{\pi(x)},1\right\}$$</p>
+</li>
+<li><p>Simulate $u\sim\text{Unif}(0,1)$. If $u\leq\alpha(y\mid x)$ then accept $y$ as the next state, otherwise stay at $x$.</p>
+</li>
 </ol>
-$$
-\alpha(y\mid x)=\min\left\{\frac{\pi(y)}{\pi(x)},1\right\}
-$$<p>.
-3. Simulate $u\sim\text{Unif}(0,1)$. If $u\leq\alpha(y\mid x)$ then accept $y$ as the next state, otherwise stay at $x$.</p>
 <p>It should be noted that this form of the Metropolis-Hastings algorithm was the original form of the <em>Metropolis algorithm</em>.</p>
 <h4 id="example-sampling-normal-variates">Example: Sampling Normal Variates<a class="anchor-link" href="#example-sampling-normal-variates">¶</a></h4><p>As a simple example, we can show how random walk Metropolis-Hastings can be used to sample from a standard Normal distribution. Let $g$ be a uniform distribution over the interval $(-\delta,\delta)$, where $\delta$ is small and $&gt;0$ (its exact value doesn't matter). Then we can do</p>
 <ol>
-<li>Simulate $\varepsilon\sim\text{Unif}(-\delta,\delta)$ and let $y=x+\varepsilon$.</li>
-<li>Compute</li>
+<li><p>Simulate $\varepsilon\sim\text{Unif}(-\delta,\delta)$ and let $y=x+\varepsilon$.</p>
+</li>
+<li><p>Compute</p>
+<p>$$\alpha(y\mid x)=\min\left\{\frac{\varphi(y)}{\varphi(x)},1\right\}$$</p>
+<p>where $\varphi$ is the standard Normal density.</p>
+</li>
+<li><p>Simulate $u\sim\text{Unif}(0,1)$. If $u\leq\alpha(y\mid x)$ then accept $y$ as the next state, otherwise stay at $x$.</p>
+</li>
 </ol>
-$$
-\alpha(y\mid x)=\min\left\{\frac{\varphi(y)}{\varphi(x)},1\right\}
-$$<p>where $\varphi$ is the standard Normal density.
-3. Simulate $u\sim\text{Unif}(0,1)$. If $u\leq\alpha(y\mid x)$ then accept $y$ as the next state, otherwise stay at $x$.</p>
 <p>We can see what this looks like by running the iteration many times.</p>
 </div>
 </div>
@@ -2610,8 +2613,8 @@ plt.tight_layout()</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>You can see in this trace plot that there are a number of iterations where there is no movement (so that the candidate is rejected, whereas in the above trace plot with the smaller value of $\delta$ there was much more movement, although the steps themselves were smaller. In particular, the first chain exhibited a bit more <em>autocorrelation</em>. With a larger $\delta$, we are proposing candidates that are much further from the current state, and that may not comport with the Normal distribution. As a result, the candidates are more likely to be rejected.</p>
-<p>This raises an important in Markov chain samplers: tuning. The theory does not depend on a specific value of $\delta$; both chains above should converge to a Normal distribution. However, the speed with which they converge and amount of the sample space that is explored does depend on $\delta$. Hence, the sampler can be tuned to improve its efficiency.</p>
+<p>You can see in this trace plot that there are a number of iterations where there is no movement (so that the candidate is rejected), whereas in the above trace plot with the smaller value of $\delta$ there was much more movement, although the steps themselves were smaller. In particular, the first chain exhibited a bit more <em>autocorrelation</em>. With a larger $\delta$, we are proposing candidates that are much further from the current state, and that may not comport with the Normal distribution. As a result, the candidates are more likely to be rejected.</p>
+<p>This raises an important issue in Markov chain samplers: tuning. The theory does not depend on a specific value of $\delta$; both chains above should converge to a Normal distribution. However, the speed with which they converge and amount of the sample space that is explored does depend on $\delta$. Hence, the sampler can be tuned to improve its efficiency.</p>
 <h3 id="independence-metropolis-algorithm">Independence Metropolis Algorithm<a class="anchor-link" href="#independence-metropolis-algorithm">¶</a></h3><p>The independence Metropolis algorithm defines a transition density as $q(y\mid x) = q(y)$. In other words, the candidate proposals do not depend on the current state x. Otherwise, the algorithm works the same as the original Metropolis-Hastings algorithm, with a modified acceptance ratio,</p>
 $$\alpha(y\mid x) = \min\left\{\frac{\pi(y)\,q(x)}{\pi(x)\,q(y)},\,1\right\}$$<p>The independence sampler seems to work well in situations where rejection sampling might be reasonable, i.e. relatively low-dimensional problems. In particular, it has the interesting property that if</p>
 <p>$C=\sup_x \frac{\pi(x)}{q(x)}&lt;\infty$</p>
@@ -2622,15 +2625,15 @@ $$\|\pi_n-\pi\| \leq k\rho^n$$<p>for $0&lt;\rho&lt;1$ and some constant $k&gt;0$
 <p>Given $y$, generate a new state $x^\star$</p>
 <p>$x^\star\sim\text{Unif}(\{x:\pi(x)\geq y\})$</p>
 <p>Note that</p>
-$$\pi(x) = \int \mathbf{1}\{0\leq y\leq \pi(x)\}\,dy.$$<p>Therefore, $f(x, y) = \mathbf{1}\{0\leq y\leq\pi(x)\}$ is a joint density. The slice sampler method creates an auxiliary variable $y$ and the intergrates it out later to give back our original target density $\pi(x)$.</p>
-<p>As depicted in the illustration, the slice sampler can be useful for densities that might have multiple modes where it's easy to get stuck around one model. The sampling of $x^\star$ allows one to jump easily between modes. However, sampling $x^\star$ may be difficult depending on the complexity of $\pi(x)$ and ultimately may not be worth the effort. If $\pi(x)$ is very wiggly or is high-dimensional, then calculating the region $\{x: \pi(x)\geq y\}$ will be very difficult.</p>
+$$\pi(x) = \int \mathbf{1}\{0\leq y\leq \pi(x)\}\,dy.$$<p>Therefore, $f(x, y) = \mathbf{1}\{0\leq y\leq\pi(x)\}$ is a joint density. The slice sampler method creates an auxiliary variable $y$ and the integrates it out later to give back our original target density $\pi(x)$.</p>
+<p>As depicted in the illustration, the slice sampler can be useful for densities that might have multiple modes where it's easy to get stuck around one mode. The sampling of $x^\star$ allows one to jump easily between modes. However, sampling $x^\star$ may be difficult depending on the complexity of $\pi(x)$ and ultimately may not be worth the effort. If $\pi(x)$ is very wiggly or is high-dimensional, then calculating the region $\{x: \pi(x)\geq y\}$ will be very difficult.</p>
 <h3 id="hit-and-run-sampler">Hit and Run Sampler<a class="anchor-link" href="#hit-and-run-sampler">¶</a></h3><p>The hit and run sampler combines ideas from line search optimization methods with MCMC sampling. Here, suppose we have the current state $x$ in $p$-dimensions and we want to propose a new state. Let $e$ be a random $p$-dimensional vector that indicates a random direction in which to travel. Then construct the density</p>
 $$p(r)\propto \pi(x + r e)$$<p>where $r$ is a scalar (and hence $p(r)$ is a 1-dimensional density). From this density, sample a value for $r$ and set the proposal to be</p>
 $$x^\star = x + r e.$$<p>This process has the advantage that it chooses more directions than a typical Gibbs sampler (see below) and does not require a multi-dimensional proposal distribution. However, sampling from the density $p(r)$ may not be obvious as there is no guaranteed closed form solution.</p>
-<h3 id="single-component-metropolis-hastings">Single Component Metropolis-Hastings<a class="anchor-link" href="#single-component-metropolis-hastings">¶</a></h3><p>The standard Metropolis algorithm updates the entire parameter vector at once with a single step. Hence, a p-dimensional parameter vector must have a p-dimensional proposal distribution q. However, it is sometimes simpler to update individual components of the parameter vector one at a time, in an algortihm known as single component Metropolis-Hastings (SCMH).</p>
+<h3 id="single-component-metropolis-hastings">Single Component Metropolis-Hastings<a class="anchor-link" href="#single-component-metropolis-hastings">¶</a></h3><p>The standard Metropolis algorithm updates the entire parameter vector at once with a single step. Hence, a p-dimensional parameter vector must have a p-dimensional proposal distribution q. However, it is sometimes simpler to update individual components of the parameter vector one at a time, in an algorithm known as single component Metropolis-Hastings (SCMH).</p>
 <p>Let $x^{(n)} = (x^{(n)}_1, x^{(n)}_2, \ldots, x^{(n)}_p)$ be a $p$-dimensional vector representing our parameters of interest at iteration n. Define
 $x_{-i} = (x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_p)$
-as the vector x with the ith component removed. The SCMH algorithm updates each paramater in x one at a time. All that is needed to update the $i$th component of $x^{(n)}$ is a proposal distribution $q(y\mid x_i^{(n)}, x_{-i}^{(n)})$ for proposing a new value of $x_i$ given the current value of $x_i$ and all the other components.</p>
+as the vector x with the ith component removed. The SCMH algorithm updates each parameter in x one at a time. All that is needed to update the $i$th component of $x^{(n)}$ is a proposal distribution $q(y\mid x_i^{(n)}, x_{-i}^{(n)})$ for proposing a new value of $x_i$ given the current value of $x_i$ and all the other components.</p>
 <p>At iteration n, SCMH updates the ith component via the following steps.</p>
 <ol>
 <li>Sample $y_i\sim q_i(y\mid x_i^{(n)}, x_{-i}^{(n)})$ as a proposal for component $i$.</li>
@@ -2751,7 +2754,7 @@ as the vector x with the ith component removed. The SCMH algorithm updates each 
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

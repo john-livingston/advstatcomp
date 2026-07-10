@@ -1175,34 +1175,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1306,6 +1278,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1313,7 +1313,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1341,7 +1341,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2075,13 +2075,11 @@ y = \beta_0 + \beta_1 x + \varepsilon
 \end{equation}$$<p>This model has unknown parameters $\beta_0$ and $\beta_1$. Given observations $(y_1, x_1), (y_2, x_2),\dots, (y_n, x_n)$, we can combine these data with the <em>likelihood principle</em>, which gives us a procedure for producing model parameter estimates. The likelihood can be <em>maximized</em> to produce <em>maximum likelihood estimates</em>,</p>
 $$
 \hat{\beta}_0 = \bar{y} - \hat{\beta}_1\bar{x}
-
 $$<p>and</p>
 $$
 \hat{\beta}_1
 =
 \frac{\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^n (x_i-\bar{x})^2}
-
 $$<p>These <em>statistics</em>, $\hat{\beta}_0$ and $\hat{\beta}_1$, can then be interpreted, depending on the area of application, or used for other purposes, perhaps as inputs to other procedures. In this simple example, we can see how each component of the modeling process works.</p>
 <table>
 <thead>
@@ -2224,7 +2222,7 @@ $$<p>These <em>statistics</em>, $\hat{\beta}_0$ and $\hat{\beta}_1$, can then be
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

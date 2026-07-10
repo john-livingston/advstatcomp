@@ -1175,34 +1175,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1306,6 +1278,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1313,7 +1313,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1341,7 +1341,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -2073,11 +2073,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p>Before we go further, let’s take a concrete example. Suppose we want to minimize the quadratic function</p>
 $$
 f(x) = \frac{1}{2} x^\prime Ax - x^\prime b
-
 $$<p>where $x$ is a $p$-dimensional vector and $A$ is a $p\times p$ symmetric matrix. Starting at a point $x_0$, both steepest descent and conjugate gradient would take us in the direction of $p_0 = -f^\prime(x_0) = b-Ax_0$, which is the negative gradient. Once we have moved in that direction to the point $x_1$, the next direction, $p_1$ must satisfy $p_0^\prime A p_1 = 0$. So we can begin with the steepest descent direction $-f^\prime(x_1)$ but then we must modify it to make it conjugate to $p_0$. The constraint $p_0^\prime Ap_1=0$ allows us to back calculate the next direction, starting with $-f^\prime(x_1)$, because we have</p>
 $$
 p_0^\prime A\left(-f^\prime - \frac{p_0^\prime A(-f^\prime)}{p_0^\prime Ap_0}p_0\right)=0.
-
 $$<p>Without the presence of the matrix $A$, this is process is simply <a href="https://en.wikipedia.org/wiki/Gram%E2%80%93Schmidt_process">Gram-Schmidt orthogonalization</a>. We can continue with this process, each time taking the steepest descent direction and modifying it to make it conjugate with the previous direction. The conjugate gradient process is (somewhat) interesting here because for minimizing a $p$-dimensional quadratic function it will converge within $p$ steps.</p>
 <p>In reality, we do not deal with exactly quadratic functions and so the above-described algorithm is not feasible. However, the <em>nonlinear conjugate gradient method</em> draws from these ideas and develops a reasonable algorithm for finding the minimum of an arbitrary smooth function. It has the feature that it only requires storage of two gradient vectors, which for large problems with many parameters, is a significant savings in storage versus Newton-type algorithms which require storage of a gradient vector and a $p\times p$ Hessian matrix.</p>
 <p>The Fletcher-Reeves nonlinear conjugate gradient algorithm works as follows. Starting with $x_0$,</p>
@@ -2087,16 +2085,13 @@ $$<p>Without the presence of the matrix $A$, this is process is simply <a href="
 </ol>
 $$
 \min_{\alpha&gt;0} f(x_0 + \alpha p_0)
-
 $$<p>for $\alpha$ and set $x_1=x_0+\alpha p_0$.
 3. For $n = 1, 2, \dots$ let $r_n = -f^\prime(x_n)$ and $r_{n-1}=-f^\prime(x_{n-1})$. Then set</p>
 $$
 \beta_n = \frac{r_n^\prime r_n}{r_{n-1}^\prime r_{n-1}}.
-
 $$<p>Finally, update $p_{n} = r_n + \beta_n * p_{n-1}$, and let</p>
 $$
 x_{n+1} = x_n + \alpha^\star p_{n},
-
 $$<p>where $\alpha^\star$ is the solution to the problem $\min_{\alpha &gt; 0}f(x_n + \alpha p_n)$. Check convergence and if not converged, repeat.</p>
 <p>It is perhaps simpler to describe this method with an illustration. Here, we show the contours of a 2-dimensional function.</p>
 </div>
@@ -2834,7 +2829,7 @@ plt.tight_layout()
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

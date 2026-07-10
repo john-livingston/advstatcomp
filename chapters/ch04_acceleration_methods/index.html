@@ -1099,6 +1099,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#squarem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQUAREM
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1196,34 +1207,6 @@
     
   
     5.1 Laplace Approximation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
   
 
     
@@ -1340,6 +1323,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1347,7 +1358,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1375,7 +1386,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1665,6 +1676,17 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#squarem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SQUAREM
+      
+    </span>
+  </a>
   
 </li>
         
@@ -2139,7 +2161,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <h2 id="acceleration-methods">Acceleration Methods<a class="anchor-link" href="#acceleration-methods">¶</a></h2><p><a href="https://scholar.google.com.au/scholar?cluster=7728340850644612874&amp;hl=en&amp;as_sdt=0,5">Dempster et al.</a> showed that the convergence rate for the EM algorithm is linear, which can be painfully slow for some problems. Therefore, a cottage industry has developed around the notion of speeding up the convergence of the algorithm. Two approaches that we describe here are one proposed by <a href="https://scholar.google.com.au/scholar?cluster=16739076398862183494&amp;hl=en&amp;as_sdt=0,5">Tom Louis</a> based on the Aitken acceleration technique and the SQUAREM approach of <a href="https://scholar.google.com.au/scholar?cluster=7793127575328145646&amp;hl=en&amp;as_sdt=0,5">Varadhan and Roland</a>.</p>
 <h3 id="louiss-acceleration">Louis's Acceleration<a class="anchor-link" href="#louiss-acceleration">¶</a></h3><p>If we let $M(\theta)$ be the map representing a single iteration of the EM algorithm, so that $\theta_{n+1} = M(\theta_n)$. Then under standard regularity conditions, we can approximate $M$ near the optimum value $\theta^\star$ with</p>
 $$\theta_{n+1} = M(\theta_n) \approx \theta_n + J(\theta_{n-1})(\theta_n - \theta_{n-1})$$<p>where <a href="https://scholar.google.com.au/scholar?cluster=7728340850644612874&amp;hl=en&amp;as_sdt=0,5">Dempster et al. 1977</a> showed that $J$ is</p>
-$$J(\theta) = I_{Z|Y}(\theta)\,I_{Z,Y}(\theta)^{-1},$$<p>which can be interpreted as characterizing the proportion of missing data. (Dempster et al. also showed that the rate of convergence of the EM algorithm is determined by the modulus of the largest eigenvalue of $J(\theta^\star)$.)</p>
+$$J(\theta) = I_{Z|Y}(\theta)\,I_{Y,Z}(\theta)^{-1},$$<p>which can be interpreted as characterizing the proportion of missing data. (Dempster et al. also showed that the rate of convergence of the EM algorithm is determined by the modulus of the largest eigenvalue of $J(\theta^\star)$.)</p>
 <p>Furthermore, for large $j$ and $n$, we have</p>
 $$\theta_{n+j+1} - \theta_{n+j} \approx J^{(n)}(\theta^\star)(\theta_{j+1} - \theta_j)$$<p>where $\theta^\star$ is the MLE, and $J^{(n)}(\theta^\star)$ is $J$ multiplied by itself $n$ times. Then if $\theta^\star$ is the limit of the sequence $\{\theta_n\}$, we can write (trivially) for any $j$</p>
 $$\theta^\star = \theta_j + \sum_{k=1}^\infty(\theta_{k+j} - \theta_{k+j-1})$$<p>We can then approximate this with</p>
@@ -2431,7 +2453,7 @@ op.x</div>
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
 <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[6]:</div>
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>np.float64(0.33313681159822994)</pre>
+<pre>0.33313681159822994</pre>
 </div>
 </div>
 </div>
@@ -2469,7 +2491,7 @@ op.x</div>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Iy</span><span class="p">(</span><span class="n">lambda0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Observed data information matrix (Fisher information of log-likelihood)"""</span>
-    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
     <span class="n">l1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lambda0</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">lambda0</span><span class="p">)</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">s2</span><span class="p">)))</span>
     <span class="n">l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">lambda0</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">lambda0</span><span class="o">-</span><span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">s2</span><span class="p">)))</span>
     <span class="n">l3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">((</span><span class="n">lambda0</span><span class="o">-</span><span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">s1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">lambda0</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span> <span class="o">*</span> <span class="n">stats</span><span class="o">.</span><span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">s2</span><span class="p">)))</span>
@@ -2479,7 +2501,7 @@ op.x</div>
 <span class="k">def</span><span class="w"> </span><span class="nf">Iyz</span><span class="p">(</span><span class="n">lambda0</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""Complete data information matrix"""</span>
     <span class="n">pihat</span> <span class="o">=</span> <span class="n">make_pi</span><span class="p">(</span><span class="n">lambda0</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
-    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
     <span class="c1"># For log(lambda) and log(1-lambda) terms</span>
     <span class="n">l1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pihat</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lambda0</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">pihat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">lambda0</span><span class="p">))</span>
     <span class="n">l2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pihat</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">lambda0</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">pihat</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">lambda0</span><span class="o">-</span><span class="n">eps</span><span class="p">))</span>
@@ -2488,7 +2510,7 @@ op.x</div>
     <span class="k">return</span> <span class="p">(</span><span class="n">l2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">l1</span> <span class="o">+</span> <span class="n">l3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">eps</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">Mstar</span><span class="p">(</span><span class="n">lambda0</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">"""Accelerated EM update using the squarem approach"""</span>
+<span class="w">    </span><span class="sd">"""Accelerated EM update using Louis's acceleration method"""</span>
     <span class="n">lambda1</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span><span class="n">lambda0</span><span class="p">)</span>
     <span class="n">iy</span> <span class="o">=</span> <span class="n">Iy</span><span class="p">(</span><span class="n">lambda0</span><span class="p">)</span>
     <span class="n">iyz</span> <span class="o">=</span> <span class="n">Iyz</span><span class="p">(</span><span class="n">lambda0</span><span class="p">)</span>
@@ -2499,7 +2521,7 @@ op.x</div>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-6">def Iy(lambda0):
     """Observed data information matrix (Fisher information of log-likelihood)"""
-    eps = 1e-8
+    eps = 1e-4
     l1 = np.sum(np.log(lambda0 * stats.norm.pdf(y, mu1, s1) + (1-lambda0) * stats.norm.pdf(y, mu2, s2)))
     l2 = np.sum(np.log((lambda0+eps) * stats.norm.pdf(y, mu1, s1) + (1-lambda0-eps) * stats.norm.pdf(y, mu2, s2)))
     l3 = np.sum(np.log((lambda0-eps) * stats.norm.pdf(y, mu1, s1) + (1-lambda0+eps) * stats.norm.pdf(y, mu2, s2)))
@@ -2509,7 +2531,7 @@ op.x</div>
 def Iyz(lambda0):
     """Complete data information matrix"""
     pihat = make_pi(lambda0, y, mu1, mu2, s1, s2)
-    eps = 1e-8
+    eps = 1e-4
     # For log(lambda) and log(1-lambda) terms
     l1 = np.sum(pihat * np.log(lambda0) + (1-pihat) * np.log(1-lambda0))
     l2 = np.sum(pihat * np.log(lambda0+eps) + (1-pihat) * np.log(1-lambda0-eps))
@@ -2518,7 +2540,7 @@ def Iyz(lambda0):
     return (l2 - 2*l1 + l3) / (eps**2)
 
 def Mstar(lambda0):
-    """Accelerated EM update using the squarem approach"""
+    """Accelerated EM update using Louis's acceleration method"""
     lambda1 = M(lambda0)
     iy = Iy(lambda0)
     iyz = Iyz(lambda0)
@@ -2528,6 +2550,17 @@ def Mstar(lambda0):
     return lambda0 + (iyz / iy) * (lambda1 - lambda0)</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6cd085d4">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>After six iterations, we have the following.</p>
 </div>
 </div>
 </div>
@@ -2636,44 +2669,44 @@ results</div>
 <tr>
 <th>0</th>
 <td>0.238855</td>
-<td>0.363824</td>
+<td>0.281867</td>
 <td>0.094282</td>
-<td>0.030687</td>
+<td>5.127010e-02</td>
 </tr>
 <tr>
 <th>1</th>
 <td>0.297432</td>
-<td>0.360706</td>
+<td>0.330932</td>
 <td>0.035705</td>
-<td>0.027569</td>
+<td>2.204348e-03</td>
 </tr>
 <tr>
 <th>2</th>
 <td>0.319506</td>
-<td>0.369116</td>
+<td>0.333132</td>
 <td>0.013630</td>
-<td>0.035980</td>
+<td>4.319466e-06</td>
 </tr>
 <tr>
 <th>3</th>
 <td>0.327902</td>
-<td>0.377329</td>
+<td>0.333136</td>
 <td>0.005235</td>
-<td>0.044193</td>
+<td>4.384198e-07</td>
 </tr>
 <tr>
 <th>4</th>
 <td>0.331120</td>
-<td>0.350493</td>
+<td>0.333136</td>
 <td>0.002016</td>
-<td>0.017356</td>
+<td>4.384077e-07</td>
 </tr>
 <tr>
 <th>5</th>
 <td>0.332359</td>
-<td>0.371728</td>
+<td>0.333136</td>
 <td>0.000778</td>
-<td>0.038591</td>
+<td>4.384077e-07</td>
 </tr>
 </tbody>
 </table>
@@ -2684,13 +2717,35 @@ results</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6cd085d4">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=aee8d496">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>After six iterations, we have the following.</p>
+<p>One can see from the <code>errorAccel</code> column that the accelerated method's error decreases much faster than the standard method's error (in the <code>errorEM</code> column). The accelerated method appears to be close to the MLE by the third iteration whereas the standard EM algorithm hasn't quite gotten there by six iterations.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2aa2cf47">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="squarem">SQUAREM<a class="anchor-link" href="#squarem">¶</a></h3><p>Let $M(\theta)$ be the map representing a single iteration of the EM algorithm so that $\theta_{n+1} = M(\theta_n)$. Given the current value $\theta_0$,</p>
+<ol>
+<li>Let $\theta_1 = M(\theta_0)$</li>
+<li>Let $\theta_2 = M(\theta_1)$</li>
+<li>Compute the difference $r = \theta_1-\theta_0$</li>
+<li>Let $v = (\theta_2-\theta_1) - r$</li>
+<li>Compute the step length $\alpha$</li>
+<li>Modify $\alpha$ if necessary</li>
+<li>Let $\theta^\prime = \theta_0 - 2\alpha r + \alpha^2 v$</li>
+<li>Let $\theta_1 = M(\theta^\prime)$</li>
+<li>Compare $\theta_1$ with $\theta_0$ and check for convergence. If we have not yet converged, let $\theta_0 = \theta_1$ and go back to Step 1.</li>
+</ol>
 </div>
 </div>
 </div>
@@ -2804,7 +2859,7 @@ results</div>
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>

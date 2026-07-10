@@ -1116,34 +1116,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ch05_non_uniform_random_numbers/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    5.2 Non-Uniform Random Numbers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1247,6 +1219,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../ch06_non_uniform_random_numbers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6.2 Non-Uniform Random Numbers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../ch06_rejection_sampling/" class="md-nav__link">
         
   
@@ -1254,7 +1254,7 @@
   <span class="md-ellipsis">
     
   
-    6.2 Rejection Sampling
+    6.3 Rejection Sampling
   
 
     
@@ -1282,7 +1282,7 @@
   <span class="md-ellipsis">
     
   
-    6.3 Importance Sampling
+    6.4 Importance Sampling
   
 
     
@@ -1993,7 +1993,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <p>In statistical applications we often need to compute quantities of the form</p>
 $$\mathbb{E}_f[g(X)] = \int g(x)f(x)\,dx$$<p>where $X$ is a random variable drawn from a distribution with probability mass function $f$. Another quantity that we often need to compute is the normalizing constant for a probability density function. If $X$ has a density that is proportional to $p(x\mid\theta)$ then its normalizing constant is $\int p(x\mid\theta)\,dx$.</p>
 <p>In both problems—computing the expectation and computing the normalizing constant—an integral must be evaluated.</p>
-<p>Approaches to solving the integration problem roughly fall into two categories. The first categories involves identifying a sequence of estimates to the integral that eventually converge to the true value as some index (usually involving time or resources) goes to infinity. Adaptive quadrature, independent Monte Carlo and Markov chain Monte Carlo techniques all fall into this category. Given enough time and resources, these techniques should converge to the true value of the integral.</p>
+<p>Approaches to solving the integration problem roughly fall into two categories. The first category involves identifying a sequence of estimates to the integral that eventually converge to the true value as some index (usually involving time or resources) goes to infinity. Adaptive quadrature, independent Monte Carlo and Markov chain Monte Carlo techniques all fall into this category. Given enough time and resources, these techniques should converge to the true value of the integral.</p>
 <p>The second category of techniques involves identifying a class of alternative functions that are easier to work with, finding the member of that class that best matches the true function, and then working with the alternate function instead to compute the integral. Laplace approximation, variational inference, and approximate Bayes computation (ABC) fall into this category of approaches. For a given dataset, these approaches will not provide the true integral value regardless of time and resources, but as the sample size increases, the approximations will get better.</p>
 </div>
 </div>
@@ -2108,7 +2108,7 @@ $$\mathbb{E}_f[g(X)] = \int g(x)f(x)\,dx$$<p>where $X$ is a random variable draw
       
         <script src="../../javascripts/mathjax.js"></script>
       
-        <script src="https://unpkg.com/mathjax@3/es5/tex-svg.js"></script>
+        <script src="../../javascripts/tex-svg.js"></script>
       
     
   </body>
