@@ -109,12 +109,12 @@ nav:
   - "5. Integration":
     - chapters/ch05_integration.ipynb
     - "5.1 Laplace Approximation": chapters/ch05_laplace_approximation.ipynb
-    - "5.2 Non-Uniform Random Numbers": chapters/ch05_non_uniform_random_numbers.ipynb
   - "6. Independent Monte Carlo":
     - chapters/ch06_independent_monte_carlo.ipynb
     - "6.1 Random Number Generation": chapters/ch06_random_number_generation.ipynb
-    - "6.2 Rejection Sampling": chapters/ch06_rejection_sampling.ipynb
-    - "6.3 Importance Sampling": chapters/ch06_importance_sampling.ipynb
+    - "6.2 Non-Uniform Random Numbers": chapters/ch06_non_uniform_random_numbers.ipynb
+    - "6.3 Rejection Sampling": chapters/ch06_rejection_sampling.ipynb
+    - "6.4 Importance Sampling": chapters/ch06_importance_sampling.ipynb
   - "7. Markov Chain Monte Carlo":
     - chapters/ch07_markov_chain_monte_carlo.ipynb
     - "7.1 Background": chapters/ch07_background.ipynb
