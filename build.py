@@ -54,7 +54,7 @@ def execute_notebook(nb_path: Path, timeout: int = TIMEOUT) -> tuple[Path, bool,
         return nb_path, True, elapsed, ""
     except Exception as exc:
         elapsed = time.time() - t0
-        # Copy unexecuted notebook so the site still builds
+        # Copy unexecuted notebook so a later --site run has something to render
         shutil.copy2(nb_path, dest)
         return nb_path, False, elapsed, str(exc)
 
